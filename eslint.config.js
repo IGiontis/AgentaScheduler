@@ -62,7 +62,7 @@ export default [
       // React Native
       "react-native/no-unused-styles": "warn",
       "react-native/split-platform-components": "warn",
-      "react-native/no-inline-styles": "warn",
+      "react-native/no-inline-styles": "none",
 
       // React
       "react/react-in-jsx-scope": "off",
