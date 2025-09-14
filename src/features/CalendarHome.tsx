@@ -8,10 +8,19 @@ import { monthNames } from "../utils/calendar";
 import { CalendarEvent } from "../types/types";
 import { useThemeContext } from "../context/ThemeContext";
 import CalendarLegend from "../components/CalendarLegend";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { CalendarStackParamList } from "../navigation/CalendarNavigator";
+
+type CalendarNav = NativeStackNavigationProp<CalendarStackParamList,"CalendarHome">;
 
 const CalendarHome = () => {
+  const navigation = useNavigation<CalendarNav>();
+
   const currentYear = new Date().getFullYear();
   const { theme, toggleTheme, colors } = useThemeContext();
+
+
 
   const fakeEvents: CalendarEvent[] = [
     { ID: "1", date: "03-02-2025", title: "Meeting", colorCode: 1 },
@@ -39,7 +48,7 @@ const CalendarHome = () => {
       <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.scrollContent, { backgroundColor: colors.background }]}>
         <View style={styles.container}>
           {monthNames.map((month, i) => (
-            <Pressable key={i} style={{ width: "47%", marginVertical: 10 }} onPress={() => console.log(month)}>
+            <Pressable key={i} style={{ width: "47%", marginVertical: 10 }}  onPress={() => navigation.navigate("MonthDetails", { monthName: month })}>
               <MonthCalendar year={currentYear} month={i} events={fakeEvents} />
             </Pressable>
           ))}
