@@ -50,9 +50,9 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events }) 
 
   // Determine background and text colors
   const { backgroundColor, textColor } = useMemo(() => {
-    if (todayCheck) return { backgroundColor: colors.primary, textColor: "white" };
-    if (hasEvent) return { backgroundColor: mapColorCode(dayEvents[0].colorCode, colors), textColor: "white" };
-    if (isHoliday) return { backgroundColor: colors.holiday, textColor: "white" };
+    if (todayCheck) return { backgroundColor: colors.today, textColor: 'white' };
+    if (hasEvent) return { backgroundColor: mapColorCode(dayEvents[0].colorCode, colors), textColor: colors.text };
+    if (isHoliday) return { backgroundColor: colors.fixedHoliday, textColor: colors.text };
     if (isWeekend) return { backgroundColor: "transparent", textColor: colors.weekend };
     return { backgroundColor: "transparent", textColor: colors.text };
   }, [todayCheck, hasEvent, isHoliday, isWeekend, dayEvents, colors]);

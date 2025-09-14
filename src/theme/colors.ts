@@ -2,22 +2,22 @@
 
 export const lightColors = {
   background: "#FFFFFF",
-  text: "#000000ff",       // default text for days
-  primary: "#007AFF",       // main accent color
-  weekend: "#FF3B30",       // red for Sat/Sun
-  holiday: "#ff7f507c",       // coral/orange for public holidays
+  text: "#000000ff", // default text for days
+  weekend: "#FF3B30", // red for Sat/Sun
+  today: "#007AFF",
+  fixedHoliday: "#ff7f507c", // coral/orange for public holidays
+  userHoliday: "#34C759",
   eventBlue: "#047dffff",
-  eventGreen: "#34C759",
   eventOrange: "#FF9500",
 };
 
 export const darkColors = {
   background: "#2c2929ff",
-  text: "#FFFFFF",           // default text for days in dark mode
-  primary: "#0A84FF",
-  weekend: "#f14d44ff",      // darker red variant for Sat/Sun
-  holiday: "#ff6e618c",        // slightly muted coral/red for holidays
+  text: "#FFFFFF", // default text for days in dark mode
+  weekend: "#f14d44ff", // darker red variant for Sat/Sun
+  today: "#0A84FF",
+  fixedHoliday: "#ff6e618c",
+  userHoliday: "#30D158",
   eventBlue: "#0A84FF",
-  eventGreen: "#30D158",
   eventOrange: "#FF9F0A",
 };

@@ -3,10 +3,11 @@ import { ScrollView, View, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 
-import MonthCalendar from "./MonthCalendar";
+import MonthCalendar from "../components/MonthCalendar";
 import { monthNames } from "../utils/calendar";
 import { CalendarEvent } from "../types/types";
 import { useThemeContext } from "../context/ThemeContext";
+import CalendarLegend from "../components/CalendarLegend";
 
 const CalendarHome = () => {
   const currentYear = new Date().getFullYear();
@@ -22,6 +23,7 @@ const CalendarHome = () => {
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
       {/* Header with theme toggle */}
       <View style={styles.header}>
+        <CalendarLegend />
         <Pressable
           onPress={toggleTheme}
           style={({ pressed }) => [
@@ -54,8 +56,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 12,
-    alignItems: "flex-end", // aligns toggle to top-right
   },
   scrollContent: {
     padding: 8,
