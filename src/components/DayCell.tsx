@@ -1,30 +1,24 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+// src/components/DayCell.tsx
+import React, { useContext } from "react";
+import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import { CalendarEvent } from "../types/types";
-import { isToday, parse, format } from "date-fns";
-
-const mapColorCode = (code: number) => {
-  switch (code) {
-    case 1:
-      return "blue";
-    case 2:
-      return "green";
-    case 3:
-      return "orange";
-    default:
-      return "gray";
-  }
-};
+import { isToday, parse } from "date-fns";
+import { lightColors, darkColors } from "../theme/colors";
+import { mapColorCode } from "../utils/calendarColors";
+import { getColors } from "../theme/utils/getColors";
+import { useThemeContext } from "../context/ThemeContext";
 
 interface DayCellProps {
   day: number;
   year: number;
   month: number;
-  weekday: number;
+  weekday: number; // 0 = Monday ... 6 = Sunday
   events: CalendarEvent[];
 }
+
 const DayCell = ({ day, year, month, weekday, events }: DayCellProps) => {
-  const isWeekend = weekday === 5 || weekday === 6;
+  const { colors } = useThemeContext();
+  const isWeekend = weekday === 5 || weekday === 6; // Sat/Sun
 
   if (!day) return <View style={styles.dayWrapper} />;
 
@@ -36,22 +30,20 @@ const DayCell = ({ day, year, month, weekday, events }: DayCellProps) => {
   });
 
   const hasEvent = dayEvents.length > 0;
-  const eventColor = hasEvent ? mapColorCode(dayEvents[0].colorCode) : "transparent";
   const todayCheck = isToday(dayDate);
 
-  // Text color logic
-  const textColor = todayCheck || hasEvent ? "white" : isWeekend ? "red" : "black";
+  const backgroundColor = todayCheck ? colors.primary : hasEvent ? mapColorCode(dayEvents[0].colorCode, colors) : "transparent";
+
+  const textColor =
+    todayCheck || hasEvent
+      ? "white" // text inside colored circle
+      : isWeekend
+      ? colors.weekend // red for Sat/Sun
+      : colors.text; // normal day number
 
   return (
     <View style={styles.dayWrapper}>
-      <View
-        style={[
-          styles.dayCircle,
-          {
-            backgroundColor: todayCheck ? "blue" : hasEvent ? eventColor : "transparent",
-          },
-        ]}
-      >
+      <View style={[styles.dayCircle, { backgroundColor }]}>
         <Text style={[styles.dayText, { color: textColor }]}>{day}</Text>
       </View>
     </View>
@@ -68,12 +60,14 @@ const styles = StyleSheet.create({
   dayCircle: {
     width: "80%",
     aspectRatio: 1,
-    borderRadius: 999, // still circular
+    borderRadius: 999,
     justifyContent: "center",
     alignItems: "center",
   },
-  dayText: { fontSize: 10, textAlign: "center" },
-  weekendText: { color: "white" }, // optional if you want weekends also white
+  dayText: {
+    fontSize: 10,
+    textAlign: "center",
+  },
 });
 
 export default DayCell;

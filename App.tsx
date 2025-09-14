@@ -1,14 +1,16 @@
 // App.js
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
 import CalendarHome from "./src/features/CalendarHome";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ThemeProvider } from "./src/context/ThemeContext";
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <CalendarHome />
-      <StatusBar style="auto" />
+      <ThemeProvider>
+        <CalendarHome />
+        <StatusBar style="auto" />
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 }
