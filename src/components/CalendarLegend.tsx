@@ -24,7 +24,7 @@ const BulletsAndLabel = ({ bulletColor, text, textColor }: { bulletColor: string
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    gap: 12,
+    gap: 16,
   },
   bulletContainer: {
     flexDirection: "row",
