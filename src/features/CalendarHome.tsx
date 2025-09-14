@@ -30,21 +30,16 @@ const CalendarHome = () => {
             },
           ]}
         >
-          <Ionicons
-            name={theme === "dark" ? "sunny" : "moon"}
-            size={28}
-            color={colors.text}
-          />
+          <Ionicons name={theme === "dark" ? "sunny" : "moon"} size={22} color={colors.text} />
         </Pressable>
       </View>
 
-      <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={[styles.scrollContent, { backgroundColor: colors.background }]}
-      >
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={[styles.scrollContent, { backgroundColor: colors.background }]}>
         <View style={styles.container}>
-          {monthNames.map((_, i) => (
-            <MonthCalendar key={i} year={currentYear} month={i} events={fakeEvents} />
+          {monthNames.map((month, i) => (
+            <Pressable key={i} style={{ width: "47%", marginVertical: 10 }} onPress={() => console.log(month)}>
+              <MonthCalendar year={currentYear} month={i} events={fakeEvents} />
+            </Pressable>
           ))}
         </View>
       </ScrollView>

@@ -5,7 +5,7 @@ export const lightColors = {
   text: "#000000ff",       // default text for days
   primary: "#007AFF",       // main accent color
   weekend: "#FF3B30",       // red for Sat/Sun
-  holiday: "#FF7F50",       // coral/orange for public holidays
+  holiday: "#ff7f507c",       // coral/orange for public holidays
   eventBlue: "#047dffff",
   eventGreen: "#34C759",
   eventOrange: "#FF9500",
@@ -16,7 +16,7 @@ export const darkColors = {
   text: "#FFFFFF",           // default text for days in dark mode
   primary: "#0A84FF",
   weekend: "#f14d44ff",      // darker red variant for Sat/Sun
-  holiday: "#FF6F61",        // slightly muted coral/red for holidays
+  holiday: "#ff6e618c",        // slightly muted coral/red for holidays
   eventBlue: "#0A84FF",
   eventGreen: "#30D158",
   eventOrange: "#FF9F0A",

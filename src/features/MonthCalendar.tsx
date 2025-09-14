@@ -16,12 +16,12 @@ const MonthCalendar = ({ year, month, events = [] }: MonthCalendarProps) => {
   const days = generateMonthDays(year, month);
 
   return (
-    <View style={styles.monthContainer}>
+    <View>
       <Text style={[styles.monthTitle, { color: colors.text }]}>{monthNames[month]}</Text>
 
       {/* Weekday labels */}
       <View style={styles.weekRow}>
-        {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+        {["Δ", "Τ", "Τ", "Π", "Π", "Σ", "Κ"].map((d, i) => (
           <Text key={d + i} style={[styles.weekDay, { color: i >= 5 ? colors.weekend : colors.text }]}>
             {d}
           </Text>
@@ -39,7 +39,7 @@ const MonthCalendar = ({ year, month, events = [] }: MonthCalendarProps) => {
 };
 
 const styles = StyleSheet.create({
-  monthContainer: { width: "47%", marginVertical: 10 },
+  // monthContainer: { width: "47%", marginVertical: 10 },
   monthTitle: {
     fontSize: 14,
     fontWeight: "bold",

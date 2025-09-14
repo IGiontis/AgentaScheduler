@@ -1,28 +1,24 @@
-// utils/calendar.ts
+import { startOfMonth, endOfMonth, eachDayOfInterval, getDay } from "date-fns";
 
-// Month names constant
-export const monthNames = [
-  "January", "February", "March", "April", "May", "June",
-  "July", "August", "September", "October", "November", "December"
-];
+export const monthNames = ["ΙΑΝΟΥΑΡΙΟΣ", "ΦΕΒΡΟΥΑΡΙΟΣ", "ΜΑΡΤΙΟΣ", "ΑΠΡΙΛΙΟΣ", "ΜΑΙΟΣ", "ΙΟΥΝΙΟΣ", "ΙΟΥΛΙΟΣ", "ΑΥΓΟΥΣΤΟΣ", "ΣΕΠΤΕΜΒΡΙΟΣ", "ΟΚΤΩΒΡΙΟΣ", "ΝΟΕΜΒΡΙΟΣ", "ΔΕΚΕΜΒΡΙΟΣ"];
 
-// Generate days of a month
-export const generateMonthDays = (year: number, month: number) => {
-  const date = new Date(year, month, 1);
-  const days: (number | null)[] = [];
+/**
+ * Generate array of days for a given month.
+ * Each element is a number (day) or null for empty slots at the start.
+ * Monday is treated as the first day of the week.
+ */
+export function generateMonthDays(year: number, month: number): (number | null)[] {
+  const start = startOfMonth(new Date(year, month));
+  const end = endOfMonth(start);
 
-  const startDay = date.getDay(); // 0 = Sun, 6 = Sat
+  const allDays = eachDayOfInterval({ start, end });
 
-  // Empty slots before first day
-  for (let i = 0; i < startDay; i++) {
-    days.push(null);
-  }
+  // Calculate empty slots before the first day (Monday=0, Sunday=6)
+  const firstDayOfWeek = (getDay(start) + 6) % 7; // adjust so Monday=0
+  const days: (number | null)[] = Array(firstDayOfWeek).fill(null);
 
-  // Actual days
-  while (date.getMonth() === month) {
-    days.push(date.getDate());
-    date.setDate(date.getDate() + 1);
-  }
+  // Add actual days
+  allDays.forEach((d) => days.push(d.getDate()));
 
   return days;
-};
+}
