@@ -1,22 +1,21 @@
 // src/components/DayCell.tsx
-import React, { useContext } from "react";
-import { View, Text, StyleSheet, useColorScheme } from "react-native";
+import React, { useMemo } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { CalendarEvent } from "../types/types";
 import { isToday, parse } from "date-fns";
-import { lightColors, darkColors } from "../theme/colors";
 import { mapColorCode } from "../utils/calendarColors";
-import { getColors } from "../theme/utils/getColors";
 import { useThemeContext } from "../context/ThemeContext";
+import { getGreekHolidays, Holiday } from "../utils/greekHolidays";
 
 interface DayCellProps {
   day: number;
   year: number;
-  month: number;
+  month: number; // 0-indexed
   weekday: number; // 0 = Monday ... 6 = Sunday
   events: CalendarEvent[];
 }
 
-const DayCell = ({ day, year, month, weekday, events }: DayCellProps) => {
+const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events }) => {
   const { colors } = useThemeContext();
   const isWeekend = weekday === 5 || weekday === 6; // Sat/Sun
 
@@ -24,22 +23,39 @@ const DayCell = ({ day, year, month, weekday, events }: DayCellProps) => {
 
   const dayDate = new Date(year, month, day);
 
-  const dayEvents = events.filter((ev) => {
-    const eventDate = parse(ev.date, "dd-MM-yyyy", new Date());
-    return eventDate.getFullYear() === dayDate.getFullYear() && eventDate.getMonth() === dayDate.getMonth() && eventDate.getDate() === dayDate.getDate();
-  });
+  // Filter events for this day
+  const dayEvents = useMemo(
+    () =>
+      events.filter((ev) => {
+        const eventDate = parse(ev.date, "dd/MM/yyyy", new Date());
+        return eventDate.getFullYear() === dayDate.getFullYear() && eventDate.getMonth() === dayDate.getMonth() && eventDate.getDate() === dayDate.getDate();
+      }),
+    [events, dayDate]
+  );
 
   const hasEvent = dayEvents.length > 0;
   const todayCheck = isToday(dayDate);
 
-  const backgroundColor = todayCheck ? colors.primary : hasEvent ? mapColorCode(dayEvents[0].colorCode, colors) : "transparent";
+  // Compute Greek holidays for the year only once
+  const holidays: Holiday[] = useMemo(() => getGreekHolidays(year), [year]);
 
-  const textColor =
-    todayCheck || hasEvent
-      ? "white" // text inside colored circle
-      : isWeekend
-      ? colors.weekend // red for Sat/Sun
-      : colors.text; // normal day number
+  const isHoliday = useMemo(
+    () =>
+      holidays.some((h) => {
+        const [dd, mm, yyyy] = h.date.split("/").map(Number);
+        return dd === dayDate.getDate() && mm - 1 === dayDate.getMonth() && yyyy === dayDate.getFullYear();
+      }),
+    [holidays, dayDate]
+  );
+
+  // Determine background and text colors
+  const { backgroundColor, textColor } = useMemo(() => {
+    if (todayCheck) return { backgroundColor: colors.primary, textColor: "white" };
+    if (hasEvent) return { backgroundColor: mapColorCode(dayEvents[0].colorCode, colors), textColor: "white" };
+    if (isHoliday) return { backgroundColor: colors.holiday, textColor: "white" };
+    if (isWeekend) return { backgroundColor: "transparent", textColor: colors.weekend };
+    return { backgroundColor: "transparent", textColor: colors.text };
+  }, [todayCheck, hasEvent, isHoliday, isWeekend, dayEvents, colors]);
 
   return (
     <View style={styles.dayWrapper}>
@@ -49,6 +65,8 @@ const DayCell = ({ day, year, month, weekday, events }: DayCellProps) => {
     </View>
   );
 };
+
+export default DayCell;
 
 const styles = StyleSheet.create({
   dayWrapper: {
@@ -69,5 +87,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-export default DayCell;
