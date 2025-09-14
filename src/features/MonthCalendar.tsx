@@ -2,17 +2,30 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { generateMonthDays, monthNames } from "../utils/calendar";
 import { format, isToday as isDateToday } from "date-fns";
-
-export type Event = { color: string; title?: string };
-export type MonthEvents = { [date: string]: Event[] };
+import { CalendarEvent } from "../types/types"; // <-- use your new type
+import DayCell from "../components/DayCell";
 
 interface MonthCalendarProps {
   year: number;
   month: number;
-  events?: MonthEvents;
+  events?: CalendarEvent[];
 }
 
-const MonthCalendar = ({ year, month, events = {} }: MonthCalendarProps) => {
+// map numeric colorCode → actual color string
+const mapColorCode = (code: number) => {
+  switch (code) {
+    case 1:
+      return "blue";
+    case 2:
+      return "green";
+    case 3:
+      return "orange";
+    default:
+      return "gray";
+  }
+};
+
+const MonthCalendar = ({ year, month, events = [] }: MonthCalendarProps) => {
   const days = generateMonthDays(year, month);
 
   return (
@@ -30,34 +43,9 @@ const MonthCalendar = ({ year, month, events = {} }: MonthCalendarProps) => {
 
       {/* Days grid */}
       <View style={styles.daysGrid}>
-        {days.map((day, i) => {
-          const weekday = i % 7;
-          const isWeekend = weekday === 5 || weekday === 6;
-          if (!day) return <View key={i} style={styles.dayWrapper} />;
-
-          // Use date-fns to get the day string and check today
-          const dayDate = new Date(year, month, day);
-          const dayString = format(dayDate, "dd/MM/yyyy"); // "03/03/2025"
-          const hasEvent = events[dayString]?.length > 0;
-          const eventColor = hasEvent ? events[dayString][0].color : undefined;
-          const todayCheck = isDateToday(dayDate);
-
-          return (
-            <View key={i} style={styles.dayWrapper}>
-              {todayCheck ? (
-                <View style={styles.todayCircle}>
-                  <Text style={[styles.dayText, isWeekend && styles.weekendText]}>{day}</Text>
-                </View>
-              ) : hasEvent ? (
-                <View style={[styles.todayCircle, { borderColor: eventColor }]}>
-                  <Text style={[styles.dayText, isWeekend && styles.weekendText]}>{day}</Text>
-                </View>
-              ) : (
-                <Text style={[styles.dayText, isWeekend && styles.weekendText]}>{day}</Text>
-              )}
-            </View>
-          );
-        })}
+        {days.map((day, i) => (
+          <DayCell key={i} day={day ?? 0} year={year} month={month} weekday={i % 7} events={events} />
+        ))}
       </View>
     </View>
   );
