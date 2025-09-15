@@ -39,7 +39,6 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
 
   // Compute Greek holidays for the year only once
   const holidays: Holiday[] = useMemo(() => getGreekHolidays(year), [year]);
-  
 
   const isHoliday = useMemo(
     () =>
@@ -52,11 +51,30 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
 
   // Determine background and text colors
   const { backgroundColor, textColor } = useMemo(() => {
-    if (todayCheck) return { backgroundColor: colors.today, textColor: "white" };
-    if (hasEvent) return { backgroundColor: mapColorCode(dayEvents[0].colorCode, colors), textColor: "white" };
-    if (isHoliday) return { backgroundColor: colors.fixedHoliday, textColor: "white" };
-    if (isWeekend) return { backgroundColor: "transparent", textColor: colors.weekend };
-    return { backgroundColor: "transparent", textColor: colors.text };
+    if (todayCheck)
+      return {
+        backgroundColor: colors.today,
+        textColor: "white",
+      };
+    if (hasEvent)
+      return {
+        backgroundColor: mapColorCode(dayEvents[0].colorCode, colors),
+        textColor: "white",
+      };
+    if (isHoliday)
+      return {
+        backgroundColor: colors.fixedHoliday,
+        textColor: "white",
+      };
+    if (isWeekend)
+      return {
+        backgroundColor: "transparent",
+        textColor: colors.weekend,
+      };
+    return {
+      backgroundColor: "transparent",
+      textColor: colors.text,
+    };
   }, [todayCheck, hasEvent, isHoliday, isWeekend, dayEvents, colors]);
 
   return (

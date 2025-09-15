@@ -14,7 +14,7 @@ const Stack = createNativeStackNavigator<CalendarStackParamList>();
 const CalendarNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="CalendarHome" component={CalendarHome} options={{ title: "Calendar", headerShown: false }} />
+      <Stack.Screen name="CalendarHome" component={CalendarHome} options={{ title: "ΗΜΕΡΟΛΟΓΙΟ", headerShown: false }} />
       <Stack.Screen
         name="MonthDetails"
         component={MonthDetails}

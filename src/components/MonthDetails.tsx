@@ -4,6 +4,7 @@ import { currentYear } from "../utils/date";
 import { RouteProp } from "@react-navigation/native";
 import { CalendarStackParamList } from "../navigation/CalendarNavigator";
 import { OnDayPress } from "../types/types";
+import { useThemeContext } from "../context/ThemeContext";
 
 type MonthDetailsRouteProp = RouteProp<CalendarStackParamList, "MonthDetails">;
 
@@ -13,7 +14,7 @@ interface MonthDetailsProps {
 
 const MonthDetails = ({ route }: MonthDetailsProps) => {
   const { monthIndex } = route.params;
-
+  const {colors} = useThemeContext();
   console.log(monthIndex);
 
   const handleDayPress: OnDayPress = (day, date, events) => {
@@ -23,8 +24,8 @@ const MonthDetails = ({ route }: MonthDetailsProps) => {
   };
 
   return (
-    <View>
-      <MonthCalendar year={currentYear} month={monthIndex} events={[]} onDayPress={handleDayPress} />
+     <View style={{ flex: 1, backgroundColor: colors.background,paddingTop:24 }}>
+      <MonthCalendar year={currentYear} month={monthIndex} onDayPress={handleDayPress} showTitle={false} />
     </View>
   );
 };
