@@ -1,9 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from "react-native";
+import MonthCalendar from "./MonthCalendar";
+import { currentYear } from "../utils/date";
+import { RouteProp } from "@react-navigation/native";
+import { CalendarStackParamList } from "../navigation/CalendarNavigator";
 
-const MonthDetails = () => {
+type MonthDetailsRouteProp = RouteProp<CalendarStackParamList, "MonthDetails">;
+
+interface MonthDetailsProps {
+  route: MonthDetailsRouteProp;
+}
+
+const MonthDetails = ({ route }: MonthDetailsProps) => {
+  const { monthIndex } = route.params;
+
+  console.log(monthIndex);
+
   return (
     <View>
-      <Text>MonthDetails</Text>
+      <MonthCalendar year={currentYear} month={monthIndex} events={[]} />
     </View>
   );
 };

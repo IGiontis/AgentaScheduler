@@ -6,7 +6,7 @@ import MonthDetails from "../components/MonthDetails";
 
 export type CalendarStackParamList = {
   CalendarHome: undefined;
-  MonthDetails: { monthName: string };
+ MonthDetails: { monthIndex: number; monthName: string };
 };
 
 const Stack = createNativeStackNavigator<CalendarStackParamList>();

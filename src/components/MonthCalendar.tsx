@@ -9,15 +9,17 @@ interface MonthCalendarProps {
   year: number;
   month: number;
   events?: CalendarEvent[];
+  showTitle?: boolean;
+  onDayPress?: (day: number, date: Date) => void;
 }
 
-const MonthCalendar = ({ year, month, events = [] }: MonthCalendarProps) => {
+const MonthCalendar = ({ year, month, events = [], showTitle = true, onDayPress }: MonthCalendarProps) => {
   const { colors } = useThemeContext();
   const days = generateMonthDays(year, month);
 
   return (
     <View>
-      <Text style={[styles.monthTitle, { color: colors.text }]}>{monthNames[month]}</Text>
+      {showTitle && <Text style={[styles.monthTitle, { color: colors.text }]}>{monthNames[month]}</Text>}
 
       {/* Weekday labels */}
       <View style={styles.weekRow}>
@@ -31,7 +33,7 @@ const MonthCalendar = ({ year, month, events = [] }: MonthCalendarProps) => {
       {/* Days grid */}
       <View style={styles.daysGrid}>
         {days.map((day, i) => (
-          <DayCell key={i} day={day ?? 0} year={year} month={month} weekday={i % 7} events={events} />
+          <DayCell key={i} day={day ?? 0} year={year} month={month} weekday={i % 7} events={events} onDayPress={onDayPress} />
         ))}
       </View>
     </View>

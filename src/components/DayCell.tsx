@@ -1,6 +1,6 @@
 // src/components/DayCell.tsx
 import React, { useMemo } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { CalendarEvent } from "../types/types";
 import { isToday, parse } from "date-fns";
 import { mapColorCode } from "../utils/calendarColors";
@@ -13,9 +13,10 @@ interface DayCellProps {
   month: number; // 0-indexed
   weekday: number; // 0 = Monday ... 6 = Sunday
   events: CalendarEvent[];
+  onDayPress?: (day: number, date: Date) => void;
 }
 
-const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events }) => {
+const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, onDayPress }) => {
   const { colors } = useThemeContext();
   const isWeekend = weekday === 5 || weekday === 6; // Sat/Sun
 
@@ -50,7 +51,7 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events }) 
 
   // Determine background and text colors
   const { backgroundColor, textColor } = useMemo(() => {
-    if (todayCheck) return { backgroundColor: colors.today, textColor: 'white' };
+    if (todayCheck) return { backgroundColor: colors.today, textColor: "white" };
     if (hasEvent) return { backgroundColor: mapColorCode(dayEvents[0].colorCode, colors), textColor: "white" };
     if (isHoliday) return { backgroundColor: colors.fixedHoliday, textColor: "white" };
     if (isWeekend) return { backgroundColor: "transparent", textColor: colors.weekend };
@@ -58,11 +59,11 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events }) 
   }, [todayCheck, hasEvent, isHoliday, isWeekend, dayEvents, colors]);
 
   return (
-    <View style={styles.dayWrapper}>
+    <Pressable style={({ pressed }) => [styles.dayWrapper, pressed && { opacity: 0.7 }]} onPress={() => onDayPress?.(day, dayDate)}>
       <View style={[styles.dayCircle, { backgroundColor }]}>
         <Text style={[styles.dayText, { color: textColor }]}>{day}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
