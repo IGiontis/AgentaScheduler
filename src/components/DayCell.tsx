@@ -1,7 +1,7 @@
 // src/components/DayCell.tsx
 import React, { useMemo } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { CalendarEvent } from "../types/types";
+import { CalendarEvent, OnDayPress } from "../types/types";
 import { isToday, parse } from "date-fns";
 import { mapColorCode } from "../utils/calendarColors";
 import { useThemeContext } from "../context/ThemeContext";
@@ -13,7 +13,7 @@ interface DayCellProps {
   month: number; // 0-indexed
   weekday: number; // 0 = Monday ... 6 = Sunday
   events: CalendarEvent[];
-  onDayPress?: (day: number, date: Date) => void;
+  onDayPress?: OnDayPress;
 }
 
 const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, onDayPress }) => {
@@ -39,6 +39,7 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
 
   // Compute Greek holidays for the year only once
   const holidays: Holiday[] = useMemo(() => getGreekHolidays(year), [year]);
+  
 
   const isHoliday = useMemo(
     () =>
@@ -59,7 +60,7 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
   }, [todayCheck, hasEvent, isHoliday, isWeekend, dayEvents, colors]);
 
   return (
-    <Pressable style={({ pressed }) => [styles.dayWrapper, pressed && { opacity: 0.7 }]} onPress={() => onDayPress?.(day, dayDate)}>
+    <Pressable style={({ pressed }) => [styles.dayWrapper, pressed && { opacity: 0.7 }]} onPress={() => onDayPress?.(day, dayDate, dayEvents)}>
       <View style={[styles.dayCircle, { backgroundColor }]}>
         <Text style={[styles.dayText, { color: textColor }]}>{day}</Text>
       </View>

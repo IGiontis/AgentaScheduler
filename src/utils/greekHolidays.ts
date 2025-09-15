@@ -1,3 +1,5 @@
+import { CalendarEvent } from "../types/types";
+
 // src/utils/greekHolidays.ts
 export interface Holiday {
   name: string;
@@ -57,4 +59,15 @@ export function getGreekHolidays(year: number): Holiday[] {
   ];
 
   return holidays.map((h) => ({ name: h.name, date: formatDate(h.date) }));
+}
+
+export function getHolidayEvents(year: number): CalendarEvent[] {
+  const holidays = getGreekHolidays(year);
+
+  return holidays.map((h) => ({
+    ID: `holiday-${h.date}`,
+    title: h.name,
+    date: h.date,
+    colorCode: 2, // 0 = red (holiday)
+  }));
 }

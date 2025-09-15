@@ -4,3 +4,5 @@ export type CalendarEvent = {
   title: string;
   colorCode: number;
 };
+
+export type OnDayPress = (day: number, date: Date, events: CalendarEvent[]) => void;

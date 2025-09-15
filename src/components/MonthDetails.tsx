@@ -3,6 +3,7 @@ import MonthCalendar from "./MonthCalendar";
 import { currentYear } from "../utils/date";
 import { RouteProp } from "@react-navigation/native";
 import { CalendarStackParamList } from "../navigation/CalendarNavigator";
+import { OnDayPress } from "../types/types";
 
 type MonthDetailsRouteProp = RouteProp<CalendarStackParamList, "MonthDetails">;
 
@@ -15,9 +16,15 @@ const MonthDetails = ({ route }: MonthDetailsProps) => {
 
   console.log(monthIndex);
 
+  const handleDayPress: OnDayPress = (day, date, events) => {
+    console.log("Day:", day);
+    console.log("Date:", date);
+    console.log("Events:", events);
+  };
+
   return (
     <View>
-      <MonthCalendar year={currentYear} month={monthIndex} events={[]} />
+      <MonthCalendar year={currentYear} month={monthIndex} events={[]} onDayPress={handleDayPress} />
     </View>
   );
 };

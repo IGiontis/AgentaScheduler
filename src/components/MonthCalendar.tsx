@@ -1,21 +1,28 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { generateMonthDays, monthNames } from "../utils/calendar";
-import { CalendarEvent } from "../types/types";
+import { type CalendarEvent, type OnDayPress } from "../types/types";
 import DayCell from "../components/DayCell";
 import { useThemeContext } from "../context/ThemeContext";
+import { getHolidayEvents } from "../utils/greekHolidays";
 
 interface MonthCalendarProps {
   year: number;
   month: number;
   events?: CalendarEvent[];
   showTitle?: boolean;
-  onDayPress?: (day: number, date: Date) => void;
+  onDayPress?: OnDayPress;
 }
 
 const MonthCalendar = ({ year, month, events = [], showTitle = true, onDayPress }: MonthCalendarProps) => {
   const { colors } = useThemeContext();
   const days = generateMonthDays(year, month);
+
+  // Generate holiday events for the year
+  const holidayEvents = getHolidayEvents(year);
+
+  // Merge user events + holiday events
+  const allEvents = [...events, ...holidayEvents];
 
   return (
     <View>
@@ -33,7 +40,7 @@ const MonthCalendar = ({ year, month, events = [], showTitle = true, onDayPress 
       {/* Days grid */}
       <View style={styles.daysGrid}>
         {days.map((day, i) => (
-          <DayCell key={i} day={day ?? 0} year={year} month={month} weekday={i % 7} events={events} onDayPress={onDayPress} />
+          <DayCell key={i} day={day ?? 0} year={year} month={month} weekday={i % 7} events={allEvents} onDayPress={onDayPress} />
         ))}
       </View>
     </View>
