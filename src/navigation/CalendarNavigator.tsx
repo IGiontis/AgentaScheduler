@@ -3,10 +3,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import CalendarHome from "../features/CalendarHome";
 import MonthDetails from "../components/MonthDetails";
+import { CalendarEvent } from "../types/types";
 
 export type CalendarStackParamList = {
   CalendarHome: undefined;
- MonthDetails: { monthIndex: number; monthName: string };
+  MonthDetails: { monthIndex: number; monthName: string; events?: CalendarEvent[] };
 };
 
 const Stack = createNativeStackNavigator<CalendarStackParamList>();

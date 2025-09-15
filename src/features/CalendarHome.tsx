@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CalendarStackParamList } from "../navigation/CalendarNavigator";
 import { currentYear } from "../utils/date";
+import { getHolidayEvents } from "../utils/greekHolidays";
 
 type CalendarNav = NativeStackNavigationProp<CalendarStackParamList, "CalendarHome">;
 
@@ -20,11 +21,16 @@ const CalendarHome = () => {
 
   const { theme, toggleTheme, colors } = useThemeContext();
 
-  const fakeEvents: CalendarEvent[] = [
-    { ID: "1", date: "03-02-2025", title: "Meeting", colorCode: 1 },
-    { ID: "2", date: "12-12-2025", title: "Birthday", colorCode: 2 },
-    { ID: "3", date: "22-07-2025", title: "Workout", colorCode: 3 },
+  const userEvents: CalendarEvent[] = [
+    { ID: "1", date: "03/02/2025", title: "Meeting", colorCode: 3 },
+    { ID: "2", date: "12/12/2025", title: "Birthday", colorCode: 3 },
+    { ID: "3", date: "22/07/2025", title: "Workout", colorCode: 3 },
   ];
+
+  const holidayEvents = getHolidayEvents(currentYear);
+
+  // Merge user events + holiday events
+  const allEvents = [...userEvents, ...holidayEvents];
 
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
@@ -50,11 +56,12 @@ const CalendarHome = () => {
               <MonthCalendar
                 year={currentYear}
                 month={i}
-                events={fakeEvents}
-                onDayPress={(day, date) =>
+                events={allEvents}
+                onDayPress={() =>
                   navigation.navigate("MonthDetails", {
                     monthName: month,
                     monthIndex: i,
+                    events:allEvents
                   })
                 }
               />

@@ -18,12 +18,6 @@ const MonthCalendar = ({ year, month, events = [], showTitle = true, onDayPress 
   const { colors } = useThemeContext();
   const days = generateMonthDays(year, month);
 
-  // Generate holiday events for the year
-  const holidayEvents = getHolidayEvents(year);
-
-  // Merge user events + holiday events
-  const allEvents = [...events, ...holidayEvents];
-
   return (
     <View>
       {showTitle && <Text style={[styles.monthTitle, { color: colors.text }]}>{monthNames[month]}</Text>}
@@ -40,7 +34,7 @@ const MonthCalendar = ({ year, month, events = [], showTitle = true, onDayPress 
       {/* Days grid */}
       <View style={styles.daysGrid}>
         {days.map((day, i) => (
-          <DayCell key={i} day={day ?? 0} year={year} month={month} weekday={i % 7} events={allEvents} onDayPress={onDayPress} />
+          <DayCell key={i} day={day ?? 0} year={year} month={month} weekday={i % 7} events={events} onDayPress={onDayPress} />
         ))}
       </View>
     </View>

@@ -65,9 +65,9 @@ export function getHolidayEvents(year: number): CalendarEvent[] {
   const holidays = getGreekHolidays(year);
 
   return holidays.map((h) => ({
-    ID: `holiday-${h.date}`,
+    ID: `holiday-${h.date}-${h.name.replace(/\s+/g, "-")}`, // unique
     title: h.name,
     date: h.date,
-    colorCode: 2, // 0 = red (holiday)
+    colorCode: 2,
   }));
 }
