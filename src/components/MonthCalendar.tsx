@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { generateMonthDays, monthNames } from "../utils/calendar";
 import { type CalendarEvent, type OnDayPress } from "../types/types";
@@ -14,15 +14,13 @@ interface MonthCalendarProps {
   onDayPress?: OnDayPress;
 }
 
-const MonthCalendar = ({ year, month, events = [], showTitle = true, onDayPress }: MonthCalendarProps) => {
+const MonthCalendar = memo(({ year, month, events = [], showTitle = true, onDayPress }: MonthCalendarProps) => {
   const { colors } = useThemeContext();
   const days = generateMonthDays(year, month);
 
   return (
     <View>
       {showTitle && <Text style={[styles.monthTitle, { color: colors.text }]}>{monthNames[month]}</Text>}
-
-      {/* Weekday labels */}
       <View style={styles.weekRow}>
         {["Δ", "Τ", "Τ", "Π", "Π", "Σ", "Κ"].map((d, i) => (
           <Text key={d + i} style={[styles.weekDay, { color: i >= 5 ? colors.weekend : colors.text }]}>
@@ -30,8 +28,6 @@ const MonthCalendar = ({ year, month, events = [], showTitle = true, onDayPress 
           </Text>
         ))}
       </View>
-
-      {/* Days grid */}
       <View style={styles.daysGrid}>
         {days.map((day, i) => (
           <DayCell key={i} day={day ?? 0} year={year} month={month} weekday={i % 7} events={events} onDayPress={onDayPress} />
@@ -39,7 +35,7 @@ const MonthCalendar = ({ year, month, events = [], showTitle = true, onDayPress 
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   // monthContainer: { width: "47%", marginVertical: 10 },
