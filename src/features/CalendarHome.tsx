@@ -25,6 +25,23 @@ const CalendarHome = () => {
     { ID: "1", date: "03/02/2025", title: "Meeting", colorCode: 3 },
     { ID: "2", date: "12/12/2025", title: "Birthday", colorCode: 3 },
     { ID: "3", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "4", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "5", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "6", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "7", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "81", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "823", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "8324", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "8123", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "8112", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "84234", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "8634", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "86", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "84", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "833", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "877", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "8771213", date: "22/07/2025", title: "Workout", colorCode: 3 },
+    { ID: "877333", date: "22/07/2025", title: "Workout", colorCode: 3 },
   ];
 
   const holidayEvents = getHolidayEvents(currentYear);

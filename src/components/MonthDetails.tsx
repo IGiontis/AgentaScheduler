@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import MonthCalendar from "./MonthCalendar";
 import { currentYear } from "../utils/date";
 import { RouteProp } from "@react-navigation/native";
 import { CalendarStackParamList } from "../navigation/CalendarNavigator";
 import { CalendarEvent, OnDayPress } from "../types/types";
 import { useThemeContext } from "../context/ThemeContext";
-import { getHolidayEvents } from "../utils/greekHolidays";
+import { mapColorCode } from "../utils/calendarColors";
+import BulletsAndLabel from "./BulletsAndLabel";
 
 type MonthDetailsRouteProp = RouteProp<CalendarStackParamList, "MonthDetails">;
 
@@ -13,44 +15,55 @@ interface MonthDetailsProps {
   route: MonthDetailsRouteProp;
 }
 
-// MonthDetails.tsx
 const MonthDetails = ({ route }: MonthDetailsProps) => {
-  const { monthIndex, events = [] } = route.params; // events from navigation
+  const { monthIndex, events = [] } = route.params;
   const { colors } = useThemeContext();
-  console.log(events)
 
-  // Filter only this month's events
-  const monthEvents = events.filter((ev) => {
-    const [dd, mm, yyyy] = ev.date.split("/").map(Number);
-    return mm - 1 === monthIndex && yyyy === currentYear;
-  });
+  const monthEvents = events
+    .filter((ev) => {
+      const [dd, mm, yyyy] = ev.date.split("/").map(Number);
+      return mm - 1 === monthIndex && yyyy === currentYear;
+    })
+    .sort((a, b) => {
+      const [aDay, aMonth, aYear] = a.date.split("/").map(Number);
+      const [bDay, bMonth, bYear] = b.date.split("/").map(Number);
+      return new Date(aYear, aMonth - 1, aDay).getTime() - new Date(bYear, bMonth - 1, bDay).getTime();
+    });
 
   const handleDayPress: OnDayPress = (day, date, events) => {
-    console.log("Day:", day);
-    console.log("Date:", date);
-    console.log("Events:", events);
+    console.log("Day:", day, "Date:", date, "Events:", events);
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.background, paddingTop: 24 }}>
-      <MonthCalendar year={currentYear} month={monthIndex} events={monthEvents} onDayPress={handleDayPress} showTitle={false} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      {/* Calendar stays fixed */}
+      <MonthCalendar
+        year={currentYear}
+        month={monthIndex}
+        events={monthEvents}
+        onDayPress={handleDayPress}
+        showTitle={false}
+      />
 
-      {/* List of events */}
-      <View style={{ padding: 16 }}>
-        {monthEvents.length === 0 ? (
-          <Text style={{ color: colors.text }}>No events this month</Text>
-        ) : (
-          monthEvents.map((ev) => (
-            <Text key={ev.ID} style={{ color: colors.text, marginBottom: 4 }}>
-              {ev.date} - {ev.title}
-            </Text>
-          ))
-        )}
+      {/* Scrollable events below */}
+      <View style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ padding: 16 }}>
+          {monthEvents.length === 0 ? (
+            <Text style={{ color: colors.text }}>No events this month</Text>
+          ) : (
+            monthEvents.map((ev) => (
+              <BulletsAndLabel
+                key={ev.ID}
+                bulletColor={mapColorCode(ev.colorCode, colors)}
+                text={`${ev.date} - ${ev.title}`}
+                textColor={colors.text}
+              />
+            ))
+          )}
+        </ScrollView>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default MonthDetails;
