@@ -25,6 +25,13 @@ const CalendarHome = () => {
     () => [
       { ID: "1", date: "03/02/2025", title: "Meeting", eventType: "userHoliday" },
       { ID: "2", date: "12/12/2025", title: "Birthday", eventType: "userHoliday" },
+      { ID: "3", date: "01/05/2025", title: "Birthday", eventType: "userHoliday" },
+      { ID: "4", date: "01/05/2025", title: "Paok", eventType: "userHoliday" },
+      { ID: "5", date: "06/01/2025", title: "Mitsos", eventType: "userHoliday" },
+      { ID: "6", date: "12/07/2025", title: "Birthday", eventType: "userHoliday" },
+      { ID: "7", date: "12/07/2025", title: "Birthday", eventType: "userHoliday" },
+      { ID: "8", date: "12/07/2025", title: "Birthday", eventType: "userHoliday" },
+      { ID: "9", date: "12/07/2025", title: "Birthday", eventType: "userHoliday" },
     ],
     []
   );
