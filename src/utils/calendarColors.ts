@@ -1,14 +1,18 @@
 import { lightColors, darkColors } from "../theme/colors";
+import { EventType } from "../types/calendar";
 
-export const mapColorCode = (code: number, colors: typeof lightColors | typeof darkColors) => {
-  switch (code) {
-    case 1:
-      return colors.today;
-    case 2:
-      return colors.fixedHoliday;
-    case 3:
-      return colors.userHoliday;
-    default:
-      return "gray";
-  }
+
+
+
+export const mapColorCode = (code: EventType, colors: typeof lightColors | typeof darkColors) => {
+  const map: Record<EventType, string> = {
+    today: colors.today,
+    fixedHoliday: colors.fixedHoliday,
+    userHoliday: colors.userHoliday,
+    twoEvents: colors.eventBlue,
+    threeEvents: colors.eventOrange,
+    fourOrMoreEvents: colors.userHoliday,
+  };
+
+  return map[code];
 };

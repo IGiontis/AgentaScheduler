@@ -1,11 +1,12 @@
 // src/components/DayCell.tsx
 import React, { useMemo } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { CalendarEvent, OnDayPress } from "../types/types";
+
 import { isToday, parse } from "date-fns";
 import { mapColorCode } from "../utils/calendarColors";
 import { useThemeContext } from "../context/ThemeContext";
 import { getGreekHolidays, Holiday } from "../utils/greekHolidays";
+import { CalendarEvent, EventType, OnDayPress } from "../types/calendar";
 
 interface DayCellProps {
   day: number;
@@ -49,33 +50,24 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
     [holidays, dayDate]
   );
 
-  // Determine background and text colors
-  const { backgroundColor, textColor } = useMemo(() => {
-    if (todayCheck)
-      return {
-        backgroundColor: colors.today,
-        textColor: "white",
-      };
-    if (hasEvent)
-      return {
-        backgroundColor: mapColorCode(dayEvents[0].colorCode, colors),
-        textColor: "white",
-      };
-    if (isHoliday)
-      return {
-        backgroundColor: colors.fixedHoliday,
-        textColor: "white",
-      };
-    if (isWeekend)
-      return {
-        backgroundColor: "transparent",
-        textColor: colors.weekend,
-      };
-    return {
-      backgroundColor: "transparent",
-      textColor: colors.text,
-    };
-  }, [todayCheck, hasEvent, isHoliday, isWeekend, dayEvents, colors]);
+ const dayEventType: EventType = useMemo(() => {
+  if (dayEvents.length === 1) return dayEvents[0].eventType;
+  if (dayEvents.length === 2) return "twoEvents";
+  if (dayEvents.length === 3) return "threeEvents";
+  return "fourOrMoreEvents";
+}, [dayEvents]);
+
+const { backgroundColor, textColor } = useMemo(() => {
+  if (todayCheck)
+    return { backgroundColor: colors.today, textColor: "white" };
+  if (hasEvent)
+    return { backgroundColor: mapColorCode(dayEventType, colors), textColor: "white" };
+  if (isHoliday)
+    return { backgroundColor: colors.fixedHoliday, textColor: "white" };
+  if (isWeekend)
+    return { backgroundColor: "transparent", textColor: colors.weekend };
+  return { backgroundColor: "transparent", textColor: colors.text };
+}, [todayCheck, hasEvent, isHoliday, isWeekend, dayEventType, colors]);
 
   return (
     <Pressable style={({ pressed }) => [styles.dayWrapper, pressed && { opacity: 0.7 }]} onPress={() => onDayPress?.(day, dayDate, dayEvents)}>

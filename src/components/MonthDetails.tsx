@@ -5,10 +5,11 @@ import MonthCalendar from "./MonthCalendar";
 import { currentYear } from "../utils/date";
 import { RouteProp } from "@react-navigation/native";
 import { CalendarStackParamList } from "../navigation/CalendarNavigator";
-import { CalendarEvent, OnDayPress } from "../types/types";
+
 import { useThemeContext } from "../context/ThemeContext";
 import { mapColorCode } from "../utils/calendarColors";
 import BulletsAndLabel from "./BulletsAndLabel";
+import { OnDayPress } from "../types/calendar";
 
 type MonthDetailsRouteProp = RouteProp<CalendarStackParamList, "MonthDetails">;
 
@@ -54,7 +55,7 @@ const MonthDetails = ({ route }: MonthDetailsProps) => {
             data={monthEvents}
             keyExtractor={(item) => item.ID}
             contentContainerStyle={{ padding: 16 }}
-            renderItem={({ item }) => <BulletsAndLabel bulletColor={mapColorCode(item.colorCode, colors)} text={`${item.date} - ${item.title}`} textColor={colors.text} />}
+            renderItem={({ item }) => <BulletsAndLabel bulletColor={mapColorCode(item.eventType, colors)} text={`${item.date} - ${item.title}`} textColor={colors.text} />}
             showsVerticalScrollIndicator={false}
           />
         )}

@@ -1,4 +1,4 @@
-import { CalendarEvent } from "../types/types";
+import { CalendarEvent, EventType } from "../types/calendar";
 
 // src/utils/greekHolidays.ts
 export interface Holiday {
@@ -68,6 +68,6 @@ export function getHolidayEvents(year: number): CalendarEvent[] {
     ID: `holiday-${h.date}-${h.name.replace(/\s+/g, "-")}`, // unique
     title: h.name,
     date: h.date,
-    colorCode: 2,
+    eventType: "fixedHoliday" as EventType,
   }));
 }

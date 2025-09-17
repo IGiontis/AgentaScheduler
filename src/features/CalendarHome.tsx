@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import MonthCalendar from "../components/MonthCalendar";
 import { monthNames } from "../utils/calendar";
-import { CalendarEvent } from "../types/types";
+
 import { useThemeContext } from "../context/ThemeContext";
 import CalendarLegend from "../components/CalendarLegend";
 import { useNavigation } from "@react-navigation/native";
@@ -13,6 +13,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { CalendarStackParamList } from "../navigation/CalendarNavigator";
 import { currentYear } from "../utils/date";
 import { getHolidayEvents } from "../utils/greekHolidays";
+import { CalendarEvent } from "../types/calendar";
 
 type CalendarNav = NativeStackNavigationProp<CalendarStackParamList, "CalendarHome">;
 
@@ -22,8 +23,8 @@ const CalendarHome = () => {
 
   const userEvents: CalendarEvent[] = useMemo(
     () => [
-      { ID: "1", date: "03/02/2025", title: "Meeting", colorCode: 3 },
-      { ID: "2", date: "12/12/2025", title: "Birthday", colorCode: 3 },
+      { ID: "1", date: "03/02/2025", title: "Meeting", eventType: "userHoliday" },
+      { ID: "2", date: "12/12/2025", title: "Birthday", eventType: "userHoliday" },
     ],
     []
   );
