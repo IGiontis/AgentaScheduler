@@ -28,14 +28,36 @@ const CalendarHome = () => {
       { ID: "3", date: "01/05/2025", title: "Birthday", eventType: "userHoliday" },
       { ID: "4", date: "01/05/2025", title: "Paok", eventType: "userHoliday" },
       { ID: "5", date: "06/01/2025", title: "Mitsos", eventType: "userHoliday" },
-      { ID: "6", date: "12/07/2025", title: "Birthday", eventType: "userHoliday" },
-      { ID: "7", date: "12/07/2025", title: "Birthday", eventType: "userHoliday" },
-      { ID: "8", date: "12/07/2025", title: "Birthday", eventType: "userHoliday" },
-      { ID: "9", date: "12/07/2025", title: "Birthday", eventType: "userHoliday" },
+
+      // 20 dummy events on 12/07/2025
+      { ID: "6", date: "12/07/2025", title: "Event 1", eventType: "userHoliday" },
+      { ID: "7", date: "12/07/2025", title: "Event 2", eventType: "userHoliday" },
+      { ID: "8", date: "12/07/2025", title: "Event 3", eventType: "userHoliday" },
+      { ID: "9", date: "12/07/2025", title: "Event 4", eventType: "userHoliday" },
+      { ID: "10", date: "12/07/2025", title: "Event 5", eventType: "userHoliday" },
+      { ID: "11", date: "12/07/2025", title: "Event 6 Event 6Event 6Event 6Event 6Event 6Event 6Event 6Event 6", eventType: "userHoliday" },
+      { ID: "12", date: "12/07/2025", title: "Event 7", eventType: "userHoliday" },
+      { ID: "13", date: "12/07/2025", title: "Event 8", eventType: "userHoliday" },
+      { ID: "14", date: "12/07/2025", title: "Event 9", eventType: "userHoliday" },
+      { ID: "15", date: "12/07/2025", title: "Event 10", eventType: "userHoliday" },
+      { ID: "16", date: "12/07/2025", title: "Event 11", eventType: "userHoliday" },
+      {
+        ID: "17",
+        date: "12/07/2025",
+        title: "Event 12 Event 12Event 12Event 12Event 12Event 12Event 12Event 12Event 12Event 12Event 12Event 12Event 12Event 12Event 12Event 12Event 12",
+        eventType: "userHoliday",
+      },
+      { ID: "18", date: "12/07/2025", title: "Event 13", eventType: "userHoliday" },
+      { ID: "19", date: "12/07/2025", title: "Event 14", eventType: "userHoliday" },
+      { ID: "20", date: "12/07/2025", title: "Event 15", eventType: "userHoliday" },
+      { ID: "21", date: "12/07/2025", title: "Event 16", eventType: "userHoliday" },
+      { ID: "22", date: "12/07/2025", title: "Event 17", eventType: "userHoliday" },
+      { ID: "23", date: "12/07/2025", title: "Event 18", eventType: "userHoliday" },
+      { ID: "24", date: "12/07/2025", title: "Event 19", eventType: "userHoliday" },
+      { ID: "25", date: "12/07/2025", title: "Event 20", eventType: "userHoliday" },
     ],
     []
   );
-
   const holidayEvents = useMemo(() => getHolidayEvents(currentYear), []);
   const allEvents = useMemo(() => [...userEvents, ...holidayEvents], [userEvents, holidayEvents]);
 

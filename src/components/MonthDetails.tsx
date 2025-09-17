@@ -10,6 +10,7 @@ import { useThemeContext } from "../context/ThemeContext";
 import { mapColorCode } from "../utils/calendarColors";
 import BulletsAndLabel from "./BulletsAndLabel";
 import { OnDayPress } from "../types/calendar";
+import CalendarLegend from "./CalendarLegend";
 
 type MonthDetailsRouteProp = RouteProp<CalendarStackParamList, "MonthDetails">;
 
@@ -44,6 +45,10 @@ const MonthDetails = ({ route }: MonthDetailsProps) => {
       {/* Calendar stays fixed */}
       <MonthCalendar year={currentYear} month={monthIndex} events={monthEvents} onDayPress={handleDayPress} showTitle={false} />
 
+      <View style={{ alignItems: "center", marginBottom: 18 }}>
+        <CalendarLegend />
+      </View>
+
       {/* FlatList for scrollable events */}
       <View style={{ flex: 1 }}>
         {monthEvents.length === 0 ? (
@@ -55,7 +60,22 @@ const MonthDetails = ({ route }: MonthDetailsProps) => {
             data={monthEvents}
             keyExtractor={(item) => item.ID}
             contentContainerStyle={{ padding: 16 }}
-            renderItem={({ item }) => <BulletsAndLabel bulletColor={mapColorCode(item.eventType, colors)} text={`${item.date} - ${item.title}`} textColor={colors.text} />}
+            renderItem={({ item, index }) => {
+              const isLast = index === monthEvents.length - 1;
+              const isOnly = monthEvents.length === 1;
+
+              return (
+                <View
+                  style={{
+                    borderBottomWidth: !isLast && !isOnly ? 1 : 0,
+                    borderBottomColor: colors.text + "33",
+                    paddingVertical: 8,
+                  }}
+                >
+                  <BulletsAndLabel bulletColor={mapColorCode(item.eventType, colors)} text={`${item.date} - ${item.title}`} textColor={colors.text} />
+                </View>
+              );
+            }}
             showsVerticalScrollIndicator={false}
           />
         )}
