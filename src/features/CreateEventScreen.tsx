@@ -2,11 +2,9 @@
 import React from "react";
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Modal } from "react-native";
 import { TextInput, Button, HelperText } from "react-native-paper";
-import { useThemeContext } from "../context/ThemeContext";
 import { useForm, Controller } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SafeAreaView } from "react-native-safe-area-context";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { format, parse } from "date-fns";
 import AppScreenContainer from "../components/AppScreenContainer";
@@ -28,8 +26,6 @@ type FormData = Yup.InferType<typeof schema>;
 // Screen Component
 // -------------------
 const CreateEventScreen = () => {
-  const { colors } = useThemeContext();
-
   const {
     control,
     handleSubmit,
@@ -163,7 +159,6 @@ const CreateEventScreen = () => {
 // Styles
 // -------------------
 const styles = StyleSheet.create({
-  test:{},
   container: { padding: 20 },
   field: { marginBottom: 15 }, // container handles spacing between fields
   input: { marginBottom: 0 }, // remove marginBottom from input

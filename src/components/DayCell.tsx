@@ -1,11 +1,10 @@
 // src/components/DayCell.tsx
 import React, { useMemo } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-
 import { isToday, parse } from "date-fns";
 import { mapColorCode } from "../utils/calendarColors";
 import { useThemeContext } from "../context/ThemeContext";
-import { getGreekHolidays, Holiday } from "../utils/greekHolidays";
+import { getGreekHolidays } from "../utils/greekHolidays";
 import { CalendarEvent, EventType, OnDayPress } from "../types/calendar";
 
 interface DayCellProps {
@@ -21,53 +20,48 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
   const { colors } = useThemeContext();
   const isWeekend = weekday === 5 || weekday === 6; // Sat/Sun
 
-  if (!day) return <View style={styles.dayWrapper} />;
+  // Always define hooks before early return
+  const dayDate = useMemo(() => (day ? new Date(year, month, day) : null), [day, year, month]);
 
-  const dayDate = new Date(year, month, day);
-
-  // Filter events for this day
-  const dayEvents = useMemo(
-    () =>
-      events.filter((ev) => {
-        const eventDate = parse(ev.date, "dd/MM/yyyy", new Date());
-        return eventDate.getFullYear() === dayDate.getFullYear() && eventDate.getMonth() === dayDate.getMonth() && eventDate.getDate() === dayDate.getDate();
-      }),
-    [events, dayDate]
-  );
+  const dayEvents = useMemo(() => {
+    if (!dayDate) return [];
+    return events.filter((ev) => {
+      const eventDate = parse(ev.date, "dd/MM/yyyy", new Date());
+      return eventDate.getFullYear() === dayDate.getFullYear() && eventDate.getMonth() === dayDate.getMonth() && eventDate.getDate() === dayDate.getDate();
+    });
+  }, [events, dayDate]);
 
   const hasEvent = dayEvents.length > 0;
-  const todayCheck = isToday(dayDate);
+  const todayCheck = useMemo(() => (dayDate ? isToday(dayDate) : false), [dayDate]);
 
-  // Compute Greek holidays for the year only once
-  const holidays: Holiday[] = useMemo(() => getGreekHolidays(year), [year]);
+  const holidays = useMemo(() => getGreekHolidays(year), [year]);
 
-  const isHoliday = useMemo(
-    () =>
-      holidays.some((h) => {
-        const [dd, mm, yyyy] = h.date.split("/").map(Number);
-        return dd === dayDate.getDate() && mm - 1 === dayDate.getMonth() && yyyy === dayDate.getFullYear();
-      }),
-    [holidays, dayDate]
-  );
+  const isHoliday = useMemo(() => {
+    if (!dayDate) return false;
+    return holidays.some((h) => {
+      const [dd, mm, yyyy] = h.date.split("/").map(Number);
+      return dd === dayDate.getDate() && mm - 1 === dayDate.getMonth() && yyyy === dayDate.getFullYear();
+    });
+  }, [holidays, dayDate]);
 
- const dayEventType: EventType = useMemo(() => {
-  if (dayEvents.length === 1) return dayEvents[0].eventType;
-  if (dayEvents.length === 2) return "twoEvents";
-  if (dayEvents.length === 3) return "threeEvents";
-  return "fourOrMoreEvents";
-}, [dayEvents]);
+  const dayEventType: EventType = useMemo(() => {
+    if (dayEvents.length === 1) return dayEvents[0].eventType;
+    if (dayEvents.length === 2) return "twoEvents";
+    if (dayEvents.length === 3) return "threeEvents";
+    return "fourOrMoreEvents";
+  }, [dayEvents]);
 
-const { backgroundColor, textColor } = useMemo(() => {
-  if (todayCheck)
-    return { backgroundColor: colors.today, textColor: "white" };
-  if (hasEvent)
-    return { backgroundColor: mapColorCode(dayEventType, colors), textColor: "white" };
-  if (isHoliday)
-    return { backgroundColor: colors.fixedHoliday, textColor: "white" };
-  if (isWeekend)
-    return { backgroundColor: "transparent", textColor: colors.weekend };
-  return { backgroundColor: "transparent", textColor: colors.text };
-}, [todayCheck, hasEvent, isHoliday, isWeekend, dayEventType, colors]);
+  const { backgroundColor, textColor } = useMemo(() => {
+    if (!dayDate) return { backgroundColor: "transparent", textColor: colors.text };
+    if (todayCheck) return { backgroundColor: colors.today, textColor: "white" };
+    if (hasEvent) return { backgroundColor: mapColorCode(dayEventType, colors), textColor: "white" };
+    if (isHoliday) return { backgroundColor: colors.fixedHoliday, textColor: "white" };
+    if (isWeekend) return { backgroundColor: "transparent", textColor: colors.weekend };
+    return { backgroundColor: "transparent", textColor: colors.text };
+  }, [todayCheck, hasEvent, isHoliday, isWeekend, dayEventType, colors, dayDate]);
+
+  // Early return for empty day
+  if (!dayDate) return <View style={styles.dayWrapper} />;
 
   return (
     <Pressable style={({ pressed }) => [styles.dayWrapper, pressed && { opacity: 0.7 }]} onPress={() => onDayPress?.(day, dayDate, dayEvents)}>

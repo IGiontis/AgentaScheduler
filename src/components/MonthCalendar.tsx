@@ -1,10 +1,11 @@
 import React, { memo } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { generateMonthDays, monthNames } from "../utils/calendar";
-import { type CalendarEvent, type OnDayPress } from "../types/types";
+
 import DayCell from "../components/DayCell";
 import { useThemeContext } from "../context/ThemeContext";
-import { getHolidayEvents } from "../utils/greekHolidays";
+import { CalendarEvent, OnDayPress } from "../types/calendar";
+
 
 interface MonthCalendarProps {
   year: number;
