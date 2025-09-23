@@ -64,7 +64,7 @@ const CalendarHome = () => {
   const allEvents = useMemo(() => [...userEvents, ...holidayEvents], [userEvents, holidayEvents]);
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.background }]} edges={["top", "left", "right"]}>
       <View style={styles.header}>
         <CalendarLegend />
         <Pressable onPress={toggleTheme} style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}>
