@@ -24,6 +24,7 @@ const CalendarHome = () => {
   const userEvents: CalendarEvent[] = useMemo(
     () => [
       { ID: "1", date: "03/02/2025", title: "Meeting", eventType: "userHoliday" },
+      { ID: "14442", date: "15/02/2025", title: "Meeting", eventType: "bills" },
       { ID: "2", date: "12/12/2025", title: "Birthday", eventType: "userHoliday" },
       { ID: "3", date: "01/05/2025", title: "Birthday", eventType: "userHoliday" },
       { ID: "4", date: "01/05/2025", title: "Paok", eventType: "userHoliday" },
@@ -31,6 +32,7 @@ const CalendarHome = () => {
 
       // 20 dummy events on 12/07/2025
       { ID: "6", date: "12/07/2025", title: "Event 1", eventType: "userHoliday" },
+      { ID: "9823", date: "03/03/2025", title: "Event 1", eventType: "userHoliday" },
       { ID: "7", date: "12/07/2025", title: "Event 2", eventType: "userHoliday" },
       { ID: "8", date: "12/07/2025", title: "Event 3", eventType: "userHoliday" },
       { ID: "9", date: "12/07/2025", title: "Event 4", eventType: "userHoliday" },

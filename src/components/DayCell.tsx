@@ -44,12 +44,15 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
     });
   }, [holidays, dayDate]);
 
-  const dayEventType: EventType = useMemo(() => {
-    if (dayEvents.length === 1) return dayEvents[0].eventType;
-    if (dayEvents.length === 2) return "twoEvents";
-    if (dayEvents.length === 3) return "threeEvents";
-    return "fourOrMoreEvents";
-  }, [dayEvents]);
+const dayEventType: EventType = useMemo(() => {
+  if (dayEvents.length === 0) return "today"; // or default
+  if (dayEvents.length === 1) return dayEvents[0].eventType;
+  if (dayEvents.some(ev => ev.eventType === "bills")) return "bills"; // bills override
+  if (dayEvents.length === 2) return "twoEvents";
+  return "threeOrMoreEvents";
+}, [dayEvents]);
+
+
 
   const { backgroundColor, textColor } = useMemo(() => {
     if (!dayDate) return { backgroundColor: "transparent", textColor: colors.text };

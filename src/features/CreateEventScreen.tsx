@@ -42,18 +42,17 @@ const CreateEventScreen = () => {
   const [showDatePicker, setShowDatePicker] = React.useState(false);
   const [tempDate, setTempDate] = React.useState<Date>(new Date());
 
-  const onSubmit = (data: FormData) => {
-    console.log("Event Created:", data);
-  };
-
   const formatDate = (date: Date) => format(date, "dd/MM/yyyy");
   const parseDate = (str: string) => parse(str, "dd/MM/yyyy", new Date());
+
+  const onSubmit = (data: any) => {
+    console.log("Event Created:", data);
+  };
 
   return (
     <AppScreenContainer scrollable>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : undefined}>
-        <ScrollView contentContainerStyle={styles.container}>
-          {/* Title */}
+        <ScrollView>
           <FieldContainer>
             <Controller
               control={control}
@@ -84,7 +83,6 @@ const CreateEventScreen = () => {
                   />
                   {errors.date && <HelperText type="error">{errors.date.message}</HelperText>}
 
-                  {/* Android DatePicker */}
                   {showDatePicker && Platform.OS === "android" && (
                     <DateTimePicker
                       value={value ? parseDate(value) : new Date()}
@@ -98,34 +96,16 @@ const CreateEventScreen = () => {
                     />
                   )}
 
-                  {/* iOS DatePicker */}
                   {showDatePicker && Platform.OS === "ios" && (
-                    <Modal transparent animationType="slide">
-                      <View style={styles.modalOverlay}>
-                        <View style={styles.modalContent}>
-                          <DateTimePicker
-                            value={value ? parseDate(value) : tempDate}
-                            mode="date"
-                            display="spinner"
-                            locale="el-GR"
-                            onChange={(e, selectedDate) => {
-                              if (selectedDate) setTempDate(selectedDate);
-                            }}
-                          />
-                          <Button
-                            mode="contained"
-                            onPress={() => {
-                              onChange(formatDate(tempDate));
-                              setShowDatePicker(false);
-                            }}
-                            style={{ marginBottom: 5 }}
-                          >
-                            OK
-                          </Button>
-                          <Button onPress={() => setShowDatePicker(false)}>Cancel</Button>
-                        </View>
-                      </View>
-                    </Modal>
+                    <IosDatePickerModal
+                      value={value}
+                      tempDate={tempDate}
+                      parseDate={parseDate}
+                      formatDate={formatDate}
+                      onChange={onChange}
+                      setTempDate={setTempDate}
+                      setShowDatePicker={setShowDatePicker}
+                    />
                   )}
                 </>
               )}
@@ -159,9 +139,8 @@ const CreateEventScreen = () => {
 // Styles
 // -------------------
 const styles = StyleSheet.create({
-  container: { padding: 20 },
-  field: { marginBottom: 15 }, // container handles spacing between fields
-  input: { marginBottom: 0 }, // remove marginBottom from input
+  field: { marginBottom: 15 },
+  input: { marginBottom: 0 },
   button: { marginTop: 10 },
   modalOverlay: { flex: 1, justifyContent: "flex-end", backgroundColor: "rgba(0,0,0,0.5)" },
   modalContent: { backgroundColor: "white", padding: 20 },
@@ -169,7 +148,49 @@ const styles = StyleSheet.create({
 
 export default CreateEventScreen;
 
-// -------------------
-// Field Container
-// -------------------
+// ******************************
+// ******** HELPERS ********
+// ******************************
+
+interface IosDatePickerModalProps {
+  value: string;
+  tempDate: Date;
+  parseDate: (str: string) => Date;
+  formatDate: (date: Date) => string;
+  onChange: (str: string) => void;
+  setShowDatePicker: (show: boolean) => void;
+  setTempDate: (date: Date) => void;
+}
+
+const IosDatePickerModal: React.FC<IosDatePickerModalProps> = ({ value, tempDate, parseDate, formatDate, onChange, setTempDate, setShowDatePicker }) => {
+  return (
+    <Modal transparent animationType="slide">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <DateTimePicker
+            value={value ? parseDate(value) : tempDate}
+            mode="date"
+            display="spinner"
+            locale="el-GR"
+            onChange={(e, selectedDate) => {
+              if (selectedDate) setTempDate(selectedDate);
+            }}
+          />
+          <Button
+            mode="contained"
+            onPress={() => {
+              onChange(formatDate(tempDate));
+              setShowDatePicker(false);
+            }}
+            style={{ marginBottom: 5 }}
+          >
+            OK
+          </Button>
+          <Button onPress={() => setShowDatePicker(false)}>Cancel</Button>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
 const FieldContainer: React.FC<{ children: React.ReactNode }> = ({ children }) => <View style={styles.field}>{children}</View>;

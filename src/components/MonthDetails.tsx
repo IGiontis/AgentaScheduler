@@ -26,7 +26,8 @@ const MonthDetails = ({ route }: MonthDetailsProps) => {
   const monthEvents = useMemo(() => {
     return events
       .filter((ev) => {
-        const [dd, mm, yyyy] = ev.date.split("/").map(Number);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [_, mm, yyyy] = ev.date.split("/").map(Number);
         return mm - 1 === monthIndex && yyyy === currentYear;
       })
       .sort((a, b) => {

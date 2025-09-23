@@ -3,9 +3,9 @@ export type EventType =
   | "today"
   | "fixedHoliday"
   | "userHoliday"
+  | "bills"
   | "twoEvents"
-  | "threeEvents"
-  | "fourOrMoreEvents";
+  | "threeOrMoreEvents";
 
 export interface CalendarEvent {
   ID: string;

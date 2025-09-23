@@ -31,7 +31,7 @@ const AppScreenContainer: React.FC<ScreenContainerProps> = ({ scrollable = false
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1 },
-  container: { padding: 20 },
+  container: { padding: 8 },
 });
 
 export default AppScreenContainer;

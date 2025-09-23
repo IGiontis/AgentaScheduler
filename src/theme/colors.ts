@@ -7,9 +7,9 @@ export const lightColors = {
   today: "#2563EB", // blue
   fixedHoliday: "#ddb91bff", // soft mustard
   userHoliday: "#16A34A", // green
-  twoEvents: "#f87e46ff", // brown
-  threeEvents: "#8B0000", // dark red (was twoEvents)
-  fourOrMoreEvents: "#6c25afff", // purple (was threeEvents)
+  bills: "#f87e46ff", // brown
+  twoEvents: "#8B0000", // dark red (was bills)
+  threeOrMoreEvents: "#6c25afff", // purple (was twoEvents)
 };
 
 export const darkColors = {
@@ -19,7 +19,7 @@ export const darkColors = {
   today: "#3B82F6", // blue
   fixedHoliday: "#e4b92c9c", // soft mustard variant for dark mode
   userHoliday: "#22C55E", // green
-  twoEvents: "#ff7b1cff", // brown
-  threeEvents: "#B22222", // dark red
-  fourOrMoreEvents: "#7139a5ff", // purple
+  bills: "#ff7b1cff", // brown
+  twoEvents: "#B22222", // dark red
+  threeOrMoreEvents: "#7139a5ff", // purple
 };

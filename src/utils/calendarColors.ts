@@ -6,9 +6,9 @@ export const mapColorCode = (code: EventType, colors: typeof lightColors | typeo
     today: colors.today,
     fixedHoliday: colors.fixedHoliday,
     userHoliday: colors.userHoliday,
+    bills: colors.bills,
     twoEvents: colors.twoEvents,
-    threeEvents: colors.threeEvents,
-    fourOrMoreEvents: colors.fourOrMoreEvents,
+    threeOrMoreEvents: colors.threeOrMoreEvents,
   };
 
   return map[code];
