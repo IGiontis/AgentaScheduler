@@ -5,6 +5,7 @@ import CalendarNavigator from "./CalendarNavigator";
 import CreateEventScreen from "../features/CreateEventScreen";
 import { Ionicons } from "@expo/vector-icons"; // optional for tab icons
 import EventsYearScreen from "../features/EventsYearScreen";
+import { useThemeContext } from "../context/ThemeContext";
 
 export type AppTabParamList = {
   CalendarTab: undefined;
@@ -15,12 +16,16 @@ export type AppTabParamList = {
 const Tab = createBottomTabNavigator<AppTabParamList>();
 
 const CalendarFormNavigator = () => {
+  const { colors } = useThemeContext();
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#2563EB",
-        tabBarInactiveTintColor: "#6B7280",
+        tabBarActiveTintColor: colors.navigationIcon,    
+       
+        tabBarStyle: {
+          backgroundColor: colors.background,      
+        },
       }}
     >
       <Tab.Screen

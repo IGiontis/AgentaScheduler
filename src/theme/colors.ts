@@ -2,6 +2,8 @@
 
 export const lightColors = {
   background: "#F9FAFB", // soft neutral
+
+  navigationIcon: "#2563EB",
   text: "#111827", // dark gray
   weekend: "#EF4444", // red
   today: "#2563EB", // blue
@@ -14,6 +16,7 @@ export const lightColors = {
 
 export const darkColors = {
   background: "#1E293B", // dark slate
+  navigationIcon: "#F9FAFB",
   text: "#F9FAFB", // light gray
   weekend: "#F87171", // red
   today: "#3B82F6", // blue
