@@ -11,7 +11,7 @@ export const lightColors = {
   userHoliday: "#16A34A", // green
   bills: "#f87e46ff", // brown
   twoEvents: "#8B0000", // dark red (was bills)
-  threeOrMoreEvents: "#6c25afff", // purple (was twoEvents)
+  threeOrMoreEvents: "#6c25afff",
 };
 
 export const darkColors = {
@@ -24,5 +24,5 @@ export const darkColors = {
   userHoliday: "#22C55E", // green
   bills: "#ff7b1cff", // brown
   twoEvents: "#B22222", // dark red
-  threeOrMoreEvents: "#7139a5ff", // purple
+  threeOrMoreEvents: "#7139a5ff", 
 };
