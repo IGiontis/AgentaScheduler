@@ -10,8 +10,8 @@ import { CalendarEvent, EventType, OnDayPress } from "../types/calendar";
 interface DayCellProps {
   day: number;
   year: number;
-  month: number; // 0-indexed
-  weekday: number; // 0 = Monday ... 6 = Sunday
+  month: number; 
+  weekday: number;
   events: CalendarEvent[];
   onDayPress?: OnDayPress;
 }

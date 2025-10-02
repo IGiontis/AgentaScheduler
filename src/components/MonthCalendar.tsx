@@ -6,7 +6,6 @@ import DayCell from "../components/DayCell";
 import { useThemeContext } from "../context/ThemeContext";
 import { CalendarEvent, OnDayPress } from "../types/calendar";
 
-
 interface MonthCalendarProps {
   year: number;
   month: number;

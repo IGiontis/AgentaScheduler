@@ -39,6 +39,7 @@ const MonthsGenerationCalendarHome = ({ year, colors }: MonthsGenerationCalendar
 
   const holidayEvents = useMemo(() => getHolidayEvents(year), [year]);
   const allEvents = useMemo(() => [...userEvents, ...holidayEvents], [userEvents, holidayEvents]);
+
   return (
     <FlatList
       data={monthNames}
