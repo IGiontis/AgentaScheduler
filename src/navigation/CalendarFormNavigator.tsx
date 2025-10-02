@@ -2,9 +2,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import CalendarNavigator from "./CalendarNavigator";
-import CreateEventScreen from "../features/CreateEventScreen";
+import CreateEventScreen from "../Screens/CreateEventScreen";
 import { Ionicons } from "@expo/vector-icons"; // optional for tab icons
-import EventsYearScreen from "../features/EventsYearScreen";
+import EventsYearScreen from "../Screens/EventsYearScreen";
 import { useThemeContext } from "../context/ThemeContext";
 
 export type AppTabParamList = {
