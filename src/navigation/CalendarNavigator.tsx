@@ -1,7 +1,7 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import CalendarHome from "../Screens/CalendarHome";
+import CalendarHome from "../Screens/CalendarHome/CalendarHome";
 import MonthDetails from "../components/MonthDetails";
 import { CalendarEvent } from "../types/calendar";
 

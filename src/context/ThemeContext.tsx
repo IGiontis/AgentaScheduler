@@ -1,9 +1,9 @@
 import React, { createContext, useState, useMemo, useContext } from "react";
-import { Appearance, ColorSchemeName } from "react-native";
+import { Appearance } from "react-native";
 import { lightColors, darkColors } from "../theme/colors";
 
 interface ThemeContextProps {
-  theme: ColorSchemeName;
+  theme: "light" | "dark";
   colors: typeof lightColors;
   toggleTheme: () => void;
 }
@@ -15,12 +15,11 @@ export const ThemeContext = createContext<ThemeContextProps>({
 });
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const systemTheme = Appearance.getColorScheme();
-  const [theme, setTheme] = useState<ColorSchemeName>(systemTheme);
+  const systemTheme = Appearance.getColorScheme() ?? "light";
+  const [theme, setTheme] = useState<"light" | "dark">(systemTheme);
 
   const toggleTheme = () => setTheme((prev) => (prev === "dark" ? "light" : "dark"));
 
-  // Memoize colors so consumers don't re-render unnecessarily
   const colors = useMemo(() => (theme === "dark" ? darkColors : lightColors), [theme]);
 
   return <ThemeContext.Provider value={{ theme, colors, toggleTheme }}>{children}</ThemeContext.Provider>;
