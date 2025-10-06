@@ -7,7 +7,7 @@ import { CalendarEvent } from "../types/calendar";
 
 export type CalendarStackParamList = {
   CalendarHome: undefined;
-  MonthDetails: { monthIndex: number; monthName: string; events?: CalendarEvent[] };
+  MonthDetails: { monthIndex: number; monthName: string; year: number; events?: CalendarEvent[] };
 };
 
 const Stack = createNativeStackNavigator<CalendarStackParamList>();

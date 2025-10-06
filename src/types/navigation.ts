@@ -7,5 +7,6 @@ export type CalendarStackParamList = {
     monthName: string;
     monthIndex: number;
     events: CalendarEvent[];
+    year: number;
   };
 };

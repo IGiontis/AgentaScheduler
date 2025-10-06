@@ -19,7 +19,8 @@ interface MonthDetailsProps {
 }
 
 const MonthDetails = ({ route }: MonthDetailsProps) => {
-  const { monthIndex, events = [] } = route.params;
+  const { monthIndex, events = [], year } = route.params;
+
   const { colors } = useThemeContext();
 
   // Memoized month events to prevent recalculating each render
@@ -28,18 +29,20 @@ const MonthDetails = ({ route }: MonthDetailsProps) => {
       .filter((ev) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [_, mm, yyyy] = ev.date.split("/").map(Number);
-        return mm - 1 === monthIndex && yyyy === currentYear;
+        return mm - 1 === monthIndex && yyyy === year;
       })
       .sort((a, b) => {
         const [aDay, aMonth, aYear] = a.date.split("/").map(Number);
         const [bDay, bMonth, bYear] = b.date.split("/").map(Number);
         return new Date(aYear, aMonth - 1, aDay).getTime() - new Date(bYear, bMonth - 1, bDay).getTime();
       });
-  }, [events, monthIndex]);
+  }, [events, monthIndex, year]);
 
   const handleDayPress: OnDayPress = (day, date, events) => {
     console.log("Day:", day, "Date:", date, "Events:", events);
   };
+
+  console.log(JSON.stringify(events, null, 2));
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>

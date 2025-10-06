@@ -53,8 +53,6 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
     return "threeOrMoreEvents";
   }, [dayEvents]);
 
-  console.log(dayEventType);
-
   const { backgroundColor, textColor } = useMemo(() => {
     if (!dayDate) return { backgroundColor: "transparent", textColor: colors.text };
     if (todayCheck) return { backgroundColor: colors.today, textColor: "white" };
