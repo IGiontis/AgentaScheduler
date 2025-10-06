@@ -10,7 +10,7 @@ import { CalendarEvent, EventType, OnDayPress } from "../types/calendar";
 interface DayCellProps {
   day: number;
   year: number;
-  month: number; 
+  month: number;
   weekday: number;
   events: CalendarEvent[];
   onDayPress?: OnDayPress;
@@ -44,15 +44,16 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
     });
   }, [holidays, dayDate]);
 
-const dayEventType: EventType = useMemo(() => {
-  if (dayEvents.length === 0) return "today"; // or default
-  if (dayEvents.length === 1) return dayEvents[0].eventType;
-  if (dayEvents.some(ev => ev.eventType === "bills")) return "bills"; // bills override
-  if (dayEvents.length === 2) return "twoEvents";
-  return "threeOrMoreEvents";
-}, [dayEvents]);
+  const dayEventType: EventType = useMemo(() => {
+    if (dayEvents.length === 0) return "none"; // or "empty"
+    if (dayEvents.some((ev) => ev.eventType === "fixedHoliday")) return "fixedHoliday";
+    if (dayEvents.length === 1) return dayEvents[0].eventType;
+    if (dayEvents.some((ev) => ev.eventType === "bills")) return "bills";
+    if (dayEvents.length === 2) return "twoEvents";
+    return "threeOrMoreEvents";
+  }, [dayEvents]);
 
-
+  console.log(dayEventType);
 
   const { backgroundColor, textColor } = useMemo(() => {
     if (!dayDate) return { backgroundColor: "transparent", textColor: colors.text };

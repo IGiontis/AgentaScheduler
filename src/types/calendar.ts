@@ -1,11 +1,4 @@
-
-export type EventType =
-  | "today"
-  | "fixedHoliday"
-  | "userHoliday"
-  | "bills"
-  | "twoEvents"
-  | "threeOrMoreEvents";
+export type EventType = "none" | "today" | "fixedHoliday" | "userHoliday" | "bills" | "twoEvents" | "threeOrMoreEvents";
 
 export interface CalendarEvent {
   ID: string;
