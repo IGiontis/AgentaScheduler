@@ -13,7 +13,7 @@ interface Props {
   control: Control<FormData>;
   showDatePicker: boolean;
   setShowDatePicker: (show: boolean) => void;
-  activeField: "startDate" | "endDate" | "date" | null; // add "date"
+  activeField: "startDate" | "endDate" | "date" | null;
   setActiveField: (field: "startDate" | "endDate" | "date" | null) => void;
   errors: Partial<Record<keyof FormData, any>>;
   tempDate: Date;
@@ -21,10 +21,10 @@ interface Props {
   parseDate: (str: string) => Date;
   formatDate: (date: Date) => string;
   handleDateChange: (selectedDate: Date | undefined, onChange: (value: string) => void) => void;
-  startDate?: string; // ✅ add this
+  startDate?: string;
 }
 
-const FromToDatePickers: React.FC<Props> = ({
+const FromToDatePickers = ({
   control,
   showDatePicker,
   setShowDatePicker,
@@ -36,7 +36,7 @@ const FromToDatePickers: React.FC<Props> = ({
   parseDate,
   formatDate,
   handleDateChange,
-}) => {
+}: Props) => {
   const startDateValue = control._defaultValues?.startDate || "";
 
   return (

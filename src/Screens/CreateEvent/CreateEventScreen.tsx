@@ -12,6 +12,7 @@ import AppScreenContainer from "../../components/AppScreenContainer";
 import IosDatePickerModal from "./components/ios/IosDatePickerModal";
 import FromToDatePickers from "./components/FromToDatePickers";
 import FieldContainer from "./components/FieldContainer";
+import { useThemeContext } from "../../context/ThemeContext";
 
 // -------------------
 // Validation Schema
@@ -67,6 +68,8 @@ const CreateEventScreen = () => {
       description: "",
     },
   });
+
+    const { colors } = useThemeContext();
 
   const isRange = useWatch({ control, name: "isRange" });
   const startDate = useWatch({ control, name: "startDate" });
@@ -215,7 +218,7 @@ const CreateEventScreen = () => {
           {/* Range Toggle */}
           <FieldContainer>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-              <Text>Multi-day event (From–To)</Text>
+              <Text style={{color: colors.text}}>Multi-day event (From–To)</Text>
               <Controller control={control} name="isRange" render={({ field: { value, onChange } }) => <Switch value={value} onValueChange={onChange} />} />
             </View>
           </FieldContainer>
