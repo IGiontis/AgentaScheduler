@@ -45,12 +45,12 @@ const DayCell: React.FC<DayCellProps> = ({ day, year, month, weekday, events, on
   }, [holidays, dayDate]);
 
   const dayEventType: EventType = useMemo(() => {
-    if (dayEvents.length === 0) return "none"; // or "empty"
-    if (dayEvents.some((ev) => ev.eventType === "fixedHoliday")) return "fixedHoliday";
-    if (dayEvents.length === 1) return dayEvents[0].eventType;
-    if (dayEvents.some((ev) => ev.eventType === "bills")) return "bills";
+    if (dayEvents.length === 0) return "none";
     if (dayEvents.length === 2) return "twoEvents";
-    return "threeOrMoreEvents";
+    if (dayEvents.length >= 3) return "threeOrMoreEvents";
+
+    const single = dayEvents[0];
+    return single.eventType;
   }, [dayEvents]);
 
   const { backgroundColor, textColor } = useMemo(() => {

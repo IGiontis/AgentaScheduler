@@ -2,10 +2,8 @@ import React, { useMemo } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MonthCalendar from "./MonthCalendar";
-import { currentYear } from "../utils/date";
 import { RouteProp } from "@react-navigation/native";
 import { CalendarStackParamList } from "../navigation/CalendarNavigator";
-
 import { useThemeContext } from "../context/ThemeContext";
 import { mapColorCode } from "../utils/calendarColors";
 import BulletsAndLabel from "./BulletsAndLabel";
@@ -42,12 +40,10 @@ const MonthDetails = ({ route }: MonthDetailsProps) => {
     console.log("Day:", day, "Date:", date, "Events:", events);
   };
 
-  console.log(JSON.stringify(events, null, 2));
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       {/* Calendar stays fixed */}
-      <MonthCalendar year={currentYear} month={monthIndex} events={monthEvents} onDayPress={handleDayPress} showTitle={false} />
+      <MonthCalendar year={year} month={monthIndex} events={monthEvents} onDayPress={handleDayPress} showTitle={false} />
 
       <View style={{ alignItems: "center", marginBottom: 18 }}>
         <CalendarLegend />

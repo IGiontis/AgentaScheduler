@@ -33,6 +33,8 @@ const MonthsGenerationCalendarHome = ({ year, colors }: MonthsGenerationCalendar
       { ID: "4", date: "01/05/2025", title: "Paok", eventType: "userHoliday" },
       { ID: "5", date: "06/01/2025", title: "Mitsos", eventType: "userHoliday" },
       { ID: "6", date: "16/01/2025", title: "Mitsos", eventType: "bills" },
+      { ID: "7", date: "16/01/2025", title: "test", eventType: "userHoliday" },
+      { ID: "8", date: "16/01/2025", title: "test", eventType: "bills" },
     ],
     []
   );
@@ -55,7 +57,7 @@ const MonthsGenerationCalendarHome = ({ year, colors }: MonthsGenerationCalendar
               monthName: month,
               monthIndex: index,
               events: allEvents,
-              year: year, // <-- add this
+              year: year,
             })
           }
         >
