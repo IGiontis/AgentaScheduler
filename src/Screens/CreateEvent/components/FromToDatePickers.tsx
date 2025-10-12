@@ -2,12 +2,12 @@
 import React from "react";
 import { Platform, StyleSheet } from "react-native";
 import { TextInput, HelperText } from "react-native-paper";
-import { Controller, Control } from "react-hook-form";
+import { Controller, useWatch, type Control } from "react-hook-form";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import FieldContainer from "./FieldContainer";
 import IosDatePickerModal from "./ios/IosDatePickerModal";
-import { FormData } from "../CreateEventScreen";
+import { FormData } from "../../../types/createForm";
 
 interface Props {
   control: Control<FormData>;
@@ -37,7 +37,7 @@ const FromToDatePickers = ({
   formatDate,
   handleDateChange,
 }: Props) => {
-  const startDateValue = control._defaultValues?.startDate || "";
+  const startDateValue = useWatch({ control, name: "startDate" }) || "";
 
   return (
     <>

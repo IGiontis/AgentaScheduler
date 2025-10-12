@@ -2,17 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { TextInput, Button, HelperText, Switch, Text } from "react-native-paper";
-import { useForm, Controller, useWatch, SubmitHandler } from "react-hook-form";
+import { useForm, Controller, useWatch, type SubmitHandler } from "react-hook-form";
 
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import DateTimePicker from "@react-native-community/datetimepicker";
+
 import { format, parse } from "date-fns";
 import AppScreenContainer from "../../components/AppScreenContainer";
-import IosDatePickerModal from "./components/ios/IosDatePickerModal";
-import FromToDatePickers from "./components/FromToDatePickers";
+
 import FieldContainer from "./components/FieldContainer";
 import { useThemeContext } from "../../context/ThemeContext";
+import SingleDatePicker from "./components/SingleDatePicker";
+import { FormData } from "../../types/createForm";
+import FromToDatePickers from "./components/FromToDatePickers";
 
 // -------------------
 // Validation Schema
@@ -38,15 +40,6 @@ const schema = Yup.object({
   description: Yup.string().optional(),
 });
 
-export type FormData = {
-  title: string;
-  isRange: boolean;
-  date?: string;
-  startDate?: string;
-  endDate?: string;
-  description?: string;
-};
-
 // -------------------
 // Screen Component
 // -------------------
@@ -55,7 +48,6 @@ const CreateEventScreen = () => {
     control,
     handleSubmit,
     setValue,
-    getValues,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema) as any,
@@ -69,10 +61,9 @@ const CreateEventScreen = () => {
     },
   });
 
-    const { colors } = useThemeContext();
+  const { colors } = useThemeContext();
 
   const isRange = useWatch({ control, name: "isRange" });
-  const startDate = useWatch({ control, name: "startDate" });
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [activeField, setActiveField] = useState<"date" | "startDate" | "endDate" | null>(null);
@@ -91,13 +82,14 @@ const CreateEventScreen = () => {
     }
   }, [isRange, setValue]);
 
-  // Ensure endDate >= startDate
+  const startDate = useWatch({ control, name: "startDate" });
+  const endDate = useWatch({ control, name: "endDate" });
+
   useEffect(() => {
-    const end = getValues("endDate");
-    if (startDate && end && parseDate(end) < parseDate(startDate)) {
+    if (startDate && endDate && parseDate(endDate) < parseDate(startDate)) {
       setValue("endDate", startDate);
     }
-  }, [getValues, setValue, startDate]);
+  }, [startDate, endDate, setValue]);
 
   const handleDateChange = (selectedDate: Date | undefined, onChange: (value: string) => void) => {
     setShowDatePicker(false);
@@ -140,50 +132,20 @@ const CreateEventScreen = () => {
 
           {/* Dates */}
           {!isRange ? (
-            // Single Date
-            <FieldContainer>
-              <Controller
-                control={control}
-                name="date"
-                render={({ field: { value, onChange } }) => (
-                  <>
-                    <TextInput
-                      label="Date (dd/MM/yyyy)"
-                      value={value}
-                      style={styles.input}
-                      onFocus={() => {
-                        setActiveField("date");
-                        setShowDatePicker(true);
-                      }}
-                      showSoftInputOnFocus={false}
-                      error={!!errors.date}
-                    />
-                    {errors.date && <HelperText type="error">{errors.date.message}</HelperText>}
-                    {showDatePicker &&
-                      activeField === "date" &&
-                      (Platform.OS === "android" ? (
-                        <DateTimePicker
-                          value={value ? parseDate(value) : new Date()}
-                          mode="date"
-                          display="default"
-                          locale="el-GR"
-                          onChange={(event, selectedDate) => handleDateChange(selectedDate, onChange)}
-                        />
-                      ) : (
-                        <IosDatePickerModal
-                          value={value}
-                          tempDate={tempDate}
-                          parseDate={parseDate}
-                          formatDate={formatDate}
-                          onChange={onChange}
-                          setTempDate={setTempDate}
-                          setShowDatePicker={setShowDatePicker}
-                        />
-                      ))}
-                  </>
-                )}
-              />
-            </FieldContainer>
+            <SingleDatePicker
+              control={control}
+              errors={errors}
+              showDatePicker={showDatePicker}
+              activeField={activeField}
+              setActiveField={setActiveField}
+              setShowDatePicker={setShowDatePicker}
+              parseDate={parseDate}
+              handleDateChange={handleDateChange}
+              tempDate={tempDate}
+              setTempDate={setTempDate}
+              formatDate={formatDate}
+              startDate={startDate}
+            />
           ) : (
             <FromToDatePickers
               control={control}
@@ -218,7 +180,7 @@ const CreateEventScreen = () => {
           {/* Range Toggle */}
           <FieldContainer>
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-              <Text style={{color: colors.text}}>Multi-day event (From–To)</Text>
+              <Text style={{ color: colors.text }}>Multi-day event (From–To)</Text>
               <Controller control={control} name="isRange" render={({ field: { value, onChange } }) => <Switch value={value} onValueChange={onChange} />} />
             </View>
           </FieldContainer>
