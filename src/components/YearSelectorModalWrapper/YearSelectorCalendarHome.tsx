@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { type Colors } from "../../../types/colors";
+import { type Colors } from "../../types/colors";
 import React from "react";
 
 interface YearSelectorCalendarHomeProps {

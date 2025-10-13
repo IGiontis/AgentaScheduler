@@ -1,5 +1,5 @@
 import { Pressable, Text, View, Modal } from "react-native";
-import { type Colors } from "../../../types/colors";
+import { type Colors } from "../../types/colors";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { FlatList } from "react-native";
