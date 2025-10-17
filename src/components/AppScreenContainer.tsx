@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useThemeContext } from "../context/ThemeContext";
 
 interface ScreenContainerProps extends ViewProps {
-  scrollable?: boolean; // optional, default false
+  scrollable?: boolean; 
   children: React.ReactNode;
 }
 

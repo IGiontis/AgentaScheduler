@@ -12,7 +12,7 @@ const initialState: EventsState = {
     { ID: "2", date: "12/12/2025", title: "Birthday", eventType: "userHoliday" },
     { ID: "3", date: "01/05/2025", title: "Birthday", eventType: "userHoliday" },
     { ID: "4", date: "01/05/2025", title: "Paok", eventType: "userHoliday" },
-    { ID: "5", date: "06/01/2025", title: "Mitsos", eventType: "userHoliday" },
+    { ID: "5", date: "06/01/2025", title: "Mitsos irthe gia na paei mia volta me ton skulo tou alla pio polu na doume pws tha to emfanisei", eventType: "userHoliday" },
     { ID: "6", date: "16/01/2025", title: "Mitsos", eventType: "bills" },
     { ID: "7", date: "16/01/2025", title: "test", eventType: "userHoliday" },
     { ID: "8", date: "16/01/2025", title: "test", eventType: "bills" },
