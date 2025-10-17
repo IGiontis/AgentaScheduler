@@ -6,11 +6,10 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { monthNames } from "../../../utils/calendar";
 
 import { type CalendarStackParamList } from "../../../types/navigation";
-import { type CalendarEvent } from "../../../types/calendar";
 import MonthCalendar from "../../../components/MonthCalendar";
-import { useMemo } from "react";
-import { getHolidayEvents } from "../../../utils/greekHolidays";
 import { Colors } from "../../../types/colors";
+import { useAppSelector } from "../../../store/hooks";
+import { selectAllEvents } from "../../../store/selectors";
 
 type CalendarNav = NativeStackNavigationProp<CalendarStackParamList, "CalendarHome">;
 
@@ -21,26 +20,7 @@ interface MonthsGenerationCalendarHomeProp {
 
 const MonthsGenerationCalendarHome = ({ year, colors }: MonthsGenerationCalendarHomeProp) => {
   const navigation = useNavigation<CalendarNav>();
-
-  // ---------------------------
-  // Sample events
-  // ---------------------------
-  const userEvents: CalendarEvent[] = useMemo(
-    () => [
-      { ID: "1", date: "03/02/2025", title: "Meeting", eventType: "userHoliday" },
-      { ID: "2", date: "12/12/2025", title: "Birthday", eventType: "userHoliday" },
-      { ID: "3", date: "01/05/2025", title: "Birthday", eventType: "userHoliday" },
-      { ID: "4", date: "01/05/2025", title: "Paok", eventType: "userHoliday" },
-      { ID: "5", date: "06/01/2025", title: "Mitsos", eventType: "userHoliday" },
-      { ID: "6", date: "16/01/2025", title: "Mitsos", eventType: "bills" },
-      { ID: "7", date: "16/01/2025", title: "test", eventType: "userHoliday" },
-      { ID: "8", date: "16/01/2025", title: "test", eventType: "bills" },
-    ],
-    []
-  );
-
-  const holidayEvents = useMemo(() => getHolidayEvents(year), [year]);
-  const allEvents = useMemo(() => [...userEvents, ...holidayEvents], [userEvents, holidayEvents]);
+  const allEvents = useAppSelector(selectAllEvents(year));
 
   return (
     <FlatList

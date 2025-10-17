@@ -5,6 +5,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider, useThemeContext } from "./src/context/ThemeContext";
 import CalendarFormNavigator from "./src/navigation/CalendarFormNavigator";
 import { NavigationContainer } from "@react-navigation/native";
+import { Provider } from "react-redux";
+import { store } from "./src/store/store";
 
 const AppContent = () => {
   const { theme } = useThemeContext();
@@ -20,9 +22,11 @@ const AppContent = () => {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <ThemeProvider>
-        <AppContent />
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider>
+          <AppContent />
+        </ThemeProvider>
+      </Provider>
     </SafeAreaProvider>
   );
 }
