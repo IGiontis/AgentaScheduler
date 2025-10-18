@@ -72,7 +72,7 @@ const MonthDetails = ({ route }: MonthDetailsProps) => {
                     paddingVertical: 8,
                   }}
                 >
-                  <BulletsAndLabel bulletColor={mapColorCode(item.eventType, colors)} text={`${item.date} - ${item.title}`} textColor={colors.text} />
+                  <BulletsAndLabel bulletColor={mapColorCode(item.eventType, colors)} date={item.date} text={item.title} textColor={colors.text} />
                 </View>
               );
             }}
