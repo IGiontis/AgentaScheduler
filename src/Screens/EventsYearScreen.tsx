@@ -1,11 +1,12 @@
 import { parse, getYear, compareAsc, format, getMonth } from "date-fns";
-import AppScreenContainer from "../components/AppScreenContainer";
 import { useThemeContext } from "../context/ThemeContext";
 import YearSelectorModalWrapper from "../components/YearSelectorModalWrapper/YearSelectorModalWrapper";
 import { useYearPicker } from "../hooks/useYearPickerModalWrapper";
 import { useAppSelector } from "../store/hooks";
 import { selectAllEvents } from "../store/selectors";
 import { FlatList, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import BulletsAndLabel from "../components/BulletsAndLabel";
 import { mapColorCode } from "../utils/calendarColors";
 import { Text } from "react-native-paper";
@@ -18,59 +19,41 @@ const EventsYearScreen = () => {
   const { colors } = useThemeContext();
   const { year, setYear, yearPageStart, setYearPageStart, yearPickerVisible, setYearPickerVisible } = useYearPicker();
   const allEvents = useAppSelector(selectAllEvents(year));
-  // console.log(year);
-  // console.log(allEvents);
 
   const yearEvents = allEvents
-    .filter((item) => {
-      const date = parse(item.date, "dd/MM/yyyy", new Date());
-      const eventYear = getYear(date);
-      return eventYear === year;
-    })
-    .sort((a, b) => {
-      const dateA = parse(a.date, "dd/MM/yyyy", new Date());
-      const dateB = parse(b.date, "dd/MM/yyyy", new Date());
-
-      return compareAsc(dateA, dateB);
-    });
+    .filter((item) => getYear(parse(item.date, "dd/MM/yyyy", new Date())) === year)
+    .sort((a, b) => compareAsc(parse(a.date, "dd/MM/yyyy", new Date()), parse(b.date, "dd/MM/yyyy", new Date())));
 
   return (
-    <AppScreenContainer scrollable={false}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      <View style={{ zIndex: 1 }}>
+        <YearSelectorModalWrapper
+          year={year}
+          setYear={setYear}
+          setYearPageStart={setYearPageStart}
+          setYearPickerVisible={setYearPickerVisible}
+          colors={colors}
+          yearPageStart={yearPageStart}
+          yearPickerVisible={yearPickerVisible}
+        />
+        <View style={{ paddingStart: 12 }}>
+          <CalendarLegend />
+        </View>
+      </View>
+
+      {/* Scrollable FlatList */}
       <FlatList
         data={yearEvents}
         keyExtractor={(item) => item.ID}
-        ListHeaderComponent={
-          <>
-            <YearSelectorModalWrapper
-              year={year}
-              setYear={setYear}
-              setYearPageStart={setYearPageStart}
-              setYearPickerVisible={setYearPickerVisible}
-              colors={colors}
-              yearPageStart={yearPageStart}
-              yearPickerVisible={yearPickerVisible}
-            />
-            <View style={{ paddingStart: 12 }}>
-              <CalendarLegend />
-            </View>
-          </>
-        }
-        contentContainerStyle={{ paddingBottom: 16, paddingEnd: 8 }}
-        renderItem={({ item, index }) => {
-          return <MonthEvents item={item} yearEvents={yearEvents} index={index} colors={colors} />;
-        }}
+        style={{ flex: 1 }} // fill remaining space
+        contentContainerStyle={{ paddingBottom: 16, paddingHorizontal: 8 }}
+        renderItem={({ item, index }) => <MonthEvents item={item} yearEvents={yearEvents} index={index} colors={colors} />}
       />
-    </AppScreenContainer>
+    </SafeAreaView>
   );
 };
 
 export default EventsYearScreen;
-
-/** ******************************************************************
- * ******** COMPONENT HELPERS ********
- * ------------------------------------------------------------------
- * Purpose: Helper component within this file
- *********************************************************************/
 
 interface MonthEventsProps {
   item: CalendarEvent;
@@ -81,7 +64,6 @@ interface MonthEventsProps {
 
 const MonthEvents = ({ item, yearEvents, index, colors }: MonthEventsProps) => {
   const lastMonthWithEvents = Math.max(...yearEvents.map((item) => getMonth(parse(item.date, "dd/MM/yyyy", new Date()))));
-
   const currentDate = parse(item.date, "dd/MM/yyyy", new Date());
   const currentMonth = getMonth(currentDate);
 
@@ -97,7 +79,7 @@ const MonthEvents = ({ item, yearEvents, index, colors }: MonthEventsProps) => {
   return (
     <View
       style={{
-        paddingHorizontal: 16, // <-- Add this
+        paddingHorizontal: 16,
         borderBottomWidth: isLastOfMonth ? 1 : 0,
         borderColor: colors.text,
         paddingBottom: isLastOfMonth ? 8 : 0,
