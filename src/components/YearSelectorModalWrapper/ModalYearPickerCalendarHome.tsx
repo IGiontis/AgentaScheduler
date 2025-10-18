@@ -27,6 +27,8 @@ const ModalYearPickerCalendarHome = ({ yearPageStart, yearPickerVisible, setYear
     closeYearPicker();
   };
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <Modal visible={yearPickerVisible} transparent animationType="fade">
       <Pressable
@@ -51,8 +53,21 @@ const ModalYearPickerCalendarHome = ({ yearPageStart, yearPickerVisible, setYear
               <Ionicons name="chevron-back" size={24} color={colors.text} />
             </Pressable>
 
-            <Pressable onPress={() => setYearPageStart(year - 6)}>
-              <Text style={{ fontSize: 18, color: colors.calendarSelectedYear, fontWeight: "bold" }}>{year}</Text>
+            <Pressable
+              onPress={() => {
+                setYear(currentYear);
+                setYearPageStart(currentYear - 6);
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: colors.calendarSelectedYear,
+                  fontWeight: "bold",
+                }}
+              >
+                {currentYear}
+              </Text>
             </Pressable>
 
             <Pressable onPress={handleNextDecade}>
