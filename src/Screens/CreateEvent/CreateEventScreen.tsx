@@ -15,6 +15,7 @@ import { useThemeContext } from "../../context/ThemeContext";
 import SingleDatePicker from "./components/SingleDatePicker";
 import { FormData } from "../../types/createForm";
 import FromToDatePickers from "./components/FromToDatePickers";
+import { EVENT_TYPES } from "../../types/calendar";
 
 // -------------------
 // Validation Schema
@@ -38,8 +39,8 @@ const schema = Yup.object({
     otherwise: (schema) => schema.optional(),
   }),
   description: Yup.string().optional(),
+  eventType: Yup.mixed<typeof EVENT_TYPES.USER_HOLIDAY | typeof EVENT_TYPES.BILLS>().oneOf([EVENT_TYPES.USER_HOLIDAY, EVENT_TYPES.BILLS]).required("Event type is required"),
 });
-
 // -------------------
 // Screen Component
 // -------------------
@@ -58,6 +59,7 @@ const CreateEventScreen = () => {
       startDate: "",
       endDate: "",
       description: "",
+      eventType: EVENT_TYPES.USER_HOLIDAY,
     },
   });
 
@@ -100,6 +102,7 @@ const CreateEventScreen = () => {
     const payload: any = {
       title: data.title,
       description: data.description,
+      eventType: data.eventType,
     };
 
     if (data.isRange) {
@@ -183,6 +186,24 @@ const CreateEventScreen = () => {
               <Text style={{ color: colors.text }}>Multi-day event (From–To)</Text>
               <Controller control={control} name="isRange" render={({ field: { value, onChange } }) => <Switch value={value} onValueChange={onChange} />} />
             </View>
+          </FieldContainer>
+
+          <FieldContainer>
+            <Text style={{ color: colors.text }}>Event Type</Text>
+            <Controller
+              control={control}
+              name="eventType"
+              render={({ field: { value, onChange } }) => (
+                <View style={{ flexDirection: "row", marginTop: 8 }}>
+                  <Button mode={value === EVENT_TYPES.USER_HOLIDAY ? "contained" : "outlined"} onPress={() => onChange(EVENT_TYPES.USER_HOLIDAY)}>
+                    User Holiday
+                  </Button>
+                  <Button mode={value === EVENT_TYPES.BILLS ? "contained" : "outlined"} onPress={() => onChange(EVENT_TYPES.BILLS)}>
+                    Bills
+                  </Button>
+                </View>
+              )}
+            />
           </FieldContainer>
 
           {/* Submit */}

@@ -1,3 +1,5 @@
+import { FormEventType } from "./calendar";
+
 export type FormData = {
   title: string;
   isRange: boolean;
@@ -5,4 +7,5 @@ export type FormData = {
   startDate?: string;
   endDate?: string;
   description?: string;
+  eventType: FormEventType;
 };
