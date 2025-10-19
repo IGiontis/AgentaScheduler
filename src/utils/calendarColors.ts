@@ -9,7 +9,7 @@ export const mapColorCode = (code: EventType, colors: typeof lightColors | typeo
     bills: colors.bills,
     twoEvents: colors.twoEvents,
     threeOrMoreEvents: colors.threeOrMoreEvents,
-    none: "transparent", // <-- added missing key
+    none: "transparent",
   };
 
   return map[code];

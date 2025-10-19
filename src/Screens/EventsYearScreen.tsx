@@ -100,7 +100,7 @@ const MonthEvents = ({ item, yearEvents, index, colors }: MonthEventsProps) => {
         </Text>
       )}
 
-      <BulletsAndLabel bulletColor={mapColorCode(item.eventType, colors)} date={item.date} text={item.title} textColor={colors.text} />
+      <BulletsAndLabel bulletColor={mapColorCode(item.eventType, colors)} date={item.date} text={item.title} textColor={colors.text} variant="dateWithDay" />
     </View>
   );
 };

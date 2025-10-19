@@ -1,32 +1,53 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { DateFormatter } from "../utils/date";
 
 interface BulletsAndLabelProps {
   bulletColor: string;
   date?: string;
   text: string;
   textColor: string;
+  variant?: "default" | "dateWithDay" | "compact"; // add more as needed
 }
 
-const BulletsAndLabel: React.FC<BulletsAndLabelProps> = ({ bulletColor, date, text, textColor }) => {
-  return (
-    <View style={styles.container}>
-      {/* Bullet */}
-      <View style={[styles.bullet, { backgroundColor: bulletColor }]} />
-
-      {/* Text area */}
-      {date && (
-        <View style={styles.bulletSeparator}>
-          <Text style={styles.date}>{date} </Text>
-          <Text style={styles.separator}>-</Text>
+const BulletsAndLabel = ({ bulletColor, date, text, textColor, variant = "dateWithDay" }: BulletsAndLabelProps) => {
+  switch (variant) {
+    case "default":
+    default:
+      return (
+        <View style={styles.container}>
+          <View style={[styles.bullet, { backgroundColor: bulletColor }]} />
+          {date && (
+            <View style={styles.bulletSeparator}>
+              <Text style={[styles.date, { color: textColor }]}>{date}</Text>
+              <Text style={[styles.separator, { color: textColor }]}>&nbsp;-</Text>
+            </View>
+          )}
+          <View style={styles.textContainer}>
+            <Text style={[styles.label, { color: textColor }]}>{text}</Text>
+          </View>
         </View>
-      )}
+      );
 
-      <View style={styles.textContainer}>
-        <Text style={[styles.label, { color: textColor }]}>{text}</Text>
-      </View>
-    </View>
-  );
+    case "dateWithDay": {
+      const formattedDate = date ? DateFormatter.withDayName(date) : undefined;
+
+      return (
+        <View style={styles.container}>
+          <View style={[styles.bullet, { backgroundColor: bulletColor }]} />
+          {formattedDate && (
+            <View style={styles.bulletSeparator}>
+              <Text style={[styles.date, { color: textColor }]}>{formattedDate}</Text>
+              <Text style={[styles.separator, { color: textColor }]}>-</Text>
+            </View>
+          )}
+          <View style={styles.textContainer}>
+            <Text style={[styles.label, { color: textColor }]}>{text}</Text>
+          </View>
+        </View>
+      );
+    }
+  }
 };
 
 const styles = StyleSheet.create({
@@ -60,7 +81,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginHorizontal: 4,
-    fontWeight:'500'
+    fontWeight: "500",
   },
 });
 
